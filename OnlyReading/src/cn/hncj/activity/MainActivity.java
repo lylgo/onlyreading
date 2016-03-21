@@ -17,7 +17,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	private FragmentBookcase bookcase;
 	private FragmentBookstory bookstory;
 	private FragmentHistory history;
-	private Bundle bundle;//≤ª”√
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
