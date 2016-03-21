@@ -32,4 +32,13 @@
         android:text="只读"
         android:textColor="#ffffff"
         android:textSize="22sp" />
+    <ImageView 
+        android:layout_marginRight="20dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/query"
+        android:src="@drawable/menu_search_nor"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        />
 </RelativeLayout>

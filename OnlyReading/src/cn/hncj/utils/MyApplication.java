@@ -1,4 +1,4 @@
-package com.hncj.utils;
+package cn.hncj.utils;
 
 import android.app.Application;
 import android.content.Context;

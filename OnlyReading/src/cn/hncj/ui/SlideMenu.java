@@ -1,4 +1,4 @@
-package com.hncj.activity;
+package cn.hncj.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;

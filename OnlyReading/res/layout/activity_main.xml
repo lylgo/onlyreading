@@ -1,35 +1,67 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    <FrameLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    <cn.hncj.ui.SlideMenu
+        android:id="@+id/slide_menu"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
-        <com.hncj.ui.MyImageView
-            android:id="@+id/rootbg"
+        <include layout="@layout/layout_menu" />
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:scaleType="fitXY" />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-            <com.hncj.activity.SlideMenu
-                android:id="@+id/slide_menu"
+            android:orientation="vertical" >
+            <include layout="@layout/layout_title_bar" />
+            <FrameLayout
+                android:id="@+id/main_content"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
-                <include layout="@layout/layout_menu" />
-                <RelativeLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:orientation="vertical" >
-                    <include layout="@layout/layout_title_bar" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="Hello World"
-                        android:textSize="22sp" />
-                </RelativeLayout>
-            </com.hncj.activity.SlideMenu>
-        </RelativeLayout>
-    </FrameLayout>
-</RelativeLayout>
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <RadioGroup
+                android:id="@+id/tab_menu"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/home_bg"
+                android:orientation="horizontal" >
+                <RadioButton
+                    android:id="@+id/book_jia"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:background="@drawable/tab_selector_checked_bg"
+                    android:button="@null"
+                    android:checked="true"
+                    android:drawableTop="@drawable/tab_selector_bookcase"
+                    android:gravity="center_horizontal|bottom"
+                    android:paddingTop="8dp"
+                    android:text="书架"
+                    android:textColor="@color/tab_selector_tv_color" />
+                <RadioButton
+                    android:id="@+id/book_cheng"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:background="@drawable/tab_selector_checked_bg"
+                    android:button="@null"
+                    android:drawableTop="@drawable/tab_selector_bookstore"
+                    android:gravity="center_horizontal|bottom"
+                    android:paddingTop="8dp"
+                    android:text="书库"
+                    android:textColor="@color/tab_selector_tv_color" />
+                <RadioButton
+                    android:id="@+id/book_history"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableTop="@drawable/tab_selector_bookhistory"
+                    android:gravity="center_horizontal|bottom"
+                    android:paddingTop="8dp"
+                    android:text="上次"
+                    android:textColor="@color/tab_selector_tv_color" />
+            </RadioGroup>
+        </LinearLayout>
+    </cn.hncj.ui.SlideMenu>
+</LinearLayout>
