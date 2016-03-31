@@ -33,28 +33,29 @@ public final class R {
         public static final int bg_title_bar=0x7f020000;
         public static final int bitmap_book_read_chapterlist_repeat=0x7f020001;
         public static final int bitmap_page_category_bg=0x7f020002;
-        public static final int home_bg=0x7f020003;
-        public static final int home_select=0x7f020004;
-        public static final int ic_category_mark=0x7f020005;
-        public static final int ic_item_normal_bg=0x7f020006;
-        public static final int ic_item_selected_bg=0x7f020007;
-        public static final int ic_launcher=0x7f020008;
-        public static final int ic_shelf_category_divider=0x7f020009;
-        public static final int ic_top_bar_category=0x7f02000a;
-        public static final int ic_top_divider=0x7f02000b;
-        public static final int menu_bookcase=0x7f02000c;
-        public static final int menu_bookcase_selected=0x7f02000d;
-        public static final int menu_bookhistory=0x7f02000e;
-        public static final int menu_bookhistory_selected=0x7f02000f;
-        public static final int menu_bookstory=0x7f020010;
-        public static final int menu_bookstory_selected=0x7f020011;
-        public static final int menu_search_nor=0x7f020012;
-        public static final int rootblock_default_bg=0x7f020013;
-        public static final int selector_category_item=0x7f020014;
-        public static final int tab_selector_bookcase=0x7f020015;
-        public static final int tab_selector_bookhistory=0x7f020016;
-        public static final int tab_selector_bookstore=0x7f020017;
-        public static final int tab_selector_checked_bg=0x7f020018;
+        public static final int bookbox_top=0x7f020003;
+        public static final int file_item_title_bg=0x7f020004;
+        public static final int home_pg=0x7f020005;
+        public static final int ic_category_mark=0x7f020006;
+        public static final int ic_item_normal_bg=0x7f020007;
+        public static final int ic_item_selected_bg=0x7f020008;
+        public static final int ic_launcher=0x7f020009;
+        public static final int ic_shelf_category_divider=0x7f02000a;
+        public static final int ic_top_bar_category=0x7f02000b;
+        public static final int ic_top_divider=0x7f02000c;
+        public static final int menu_search_nor=0x7f02000d;
+        public static final int rootblock_default_bg=0x7f02000e;
+        public static final int selector_category_item=0x7f02000f;
+        public static final int tab_last=0x7f020010;
+        public static final int tab_last_selected=0x7f020011;
+        public static final int tab_selector_bookcase=0x7f020012;
+        public static final int tab_selector_bookhistory=0x7f020013;
+        public static final int tab_selector_bookstore=0x7f020014;
+        public static final int tab_selector_checked_bg=0x7f020015;
+        public static final int tab_shelf=0x7f020016;
+        public static final int tab_shelf_selected=0x7f020017;
+        public static final int tab_shop=0x7f020018;
+        public static final int tab_shop_selected=0x7f020019;
     }
     public static final class id {
         public static final int action_settings=0x7f09000d;
@@ -74,9 +75,9 @@ public final class R {
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int fragment_bookcase=0x7f030001;
-        public static final int fragment_bookhistory=0x7f030002;
-        public static final int fragment_bookstory=0x7f030003;
+        public static final int frament_bookhistory=0x7f030001;
+        public static final int frament_bookstack=0x7f030002;
+        public static final int frament_bookstore=0x7f030003;
         public static final int layout_menu=0x7f030004;
         public static final int layout_title_bar=0x7f030005;
     }

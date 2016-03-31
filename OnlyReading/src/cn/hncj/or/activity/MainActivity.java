@@ -1,4 +1,4 @@
-package cn.hncj.activity;
+package cn.hncj.or.activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -6,17 +6,18 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import cn.hncj.fragment.FragmentBookcase;
-import cn.hncj.fragment.FragmentBookstory;
-import cn.hncj.fragment.FragmentHistory;
-import cn.hncj.ui.SlideMenu;
+import cn.hncj.or.ui.SlideMenu;
+
 import com.hncj.activity.R;
+import com.hncj.or.frament.FragmentBookhistory;
+import com.hncj.or.frament.FragmentBookstack;
+import com.hncj.or.frament.FragmentBookstore;
 public class MainActivity extends FragmentActivity implements OnClickListener{
 	private SlideMenu slideMenu;
 	private RadioGroup group;
-	private FragmentBookcase bookcase;
-	private FragmentBookstory bookstory;
-	private FragmentHistory history;
+	private FragmentBookstack bookcase;
+	private FragmentBookstore bookstory;
+	private FragmentBookhistory  history;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,7 +46,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 	 * º”‘ÿFragment≤ºæ÷
 	 */
 	public void initView() {
-		 bookcase= new FragmentBookcase();
+		 bookcase= new FragmentBookstack();
 		getSupportFragmentManager().beginTransaction().replace(R.id.main_content, bookcase).commit();
 		group = (RadioGroup) findViewById(R.id.tab_menu);
 		group.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -54,18 +55,18 @@ public class MainActivity extends FragmentActivity implements OnClickListener{
 				// TODO Auto-generated method stub
 				switch (checkedId) {
 				case R.id.book_jia:
-					bookcase = new FragmentBookcase();
+					bookcase = new FragmentBookstack();
 					getSupportFragmentManager().beginTransaction().replace(R.id.main_content, bookcase)
 							.commit();
 					break;
 				case R.id.book_cheng:
 					if (bookstory==null) {
-						bookstory =new FragmentBookstory();
+						bookstory =new FragmentBookstore();
 					}
 					getSupportFragmentManager().beginTransaction().replace(R.id.main_content, bookstory).commit();
 					break;
 				case R.id.book_history:
-					history = new FragmentHistory();
+					history = new FragmentBookhistory();
 					getSupportFragmentManager().beginTransaction().replace(R.id.main_content, history)
 							.commit();
 					break;
