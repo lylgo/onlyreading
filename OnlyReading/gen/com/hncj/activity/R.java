@@ -9,6 +9,25 @@ package com.hncj.activity;
 
 public final class R {
     public static final class attr {
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int border_color=0x7f010001;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int border_width=0x7f010000;
     }
     public static final class color {
         public static final int color_0=0x7f040000;
@@ -16,7 +35,9 @@ public final class R {
         public static final int color_2=0x7f040002;
         public static final int color_3=0x7f040003;
         public static final int color_4=0x7f040004;
-        public static final int tab_selector_tv_color=0x7f040005;
+        public static final int dark=0x7f040005;
+        public static final int light=0x7f040006;
+        public static final int tab_selector_tv_color=0x7f040007;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -30,48 +51,60 @@ public final class R {
         public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
-        public static final int bg_title_bar=0x7f020000;
-        public static final int bitmap_book_read_chapterlist_repeat=0x7f020001;
-        public static final int bitmap_page_category_bg=0x7f020002;
-        public static final int bookbox_top=0x7f020003;
-        public static final int file_item_title_bg=0x7f020004;
-        public static final int home_pg=0x7f020005;
-        public static final int ic_category_mark=0x7f020006;
-        public static final int ic_item_normal_bg=0x7f020007;
-        public static final int ic_item_selected_bg=0x7f020008;
-        public static final int ic_launcher=0x7f020009;
-        public static final int ic_shelf_category_divider=0x7f02000a;
-        public static final int ic_top_bar_category=0x7f02000b;
-        public static final int ic_top_divider=0x7f02000c;
-        public static final int menu_search_nor=0x7f02000d;
-        public static final int rootblock_default_bg=0x7f02000e;
-        public static final int selector_category_item=0x7f02000f;
-        public static final int tab_last=0x7f020010;
-        public static final int tab_last_selected=0x7f020011;
-        public static final int tab_selector_bookcase=0x7f020012;
-        public static final int tab_selector_bookhistory=0x7f020013;
-        public static final int tab_selector_bookstore=0x7f020014;
-        public static final int tab_selector_checked_bg=0x7f020015;
-        public static final int tab_shelf=0x7f020016;
-        public static final int tab_shelf_selected=0x7f020017;
-        public static final int tab_shop=0x7f020018;
-        public static final int tab_shop_selected=0x7f020019;
+        public static final int bg_sliding_menu=0x7f020000;
+        public static final int bg_title_bar=0x7f020001;
+        public static final int bitmap_book_read_chapterlist_repeat=0x7f020002;
+        public static final int bitmap_page_category_bg=0x7f020003;
+        public static final int bookbox_hori_bottom=0x7f020004;
+        public static final int bookbox_top=0x7f020005;
+        public static final int brown_shelf_background=0x7f020006;
+        public static final int brown_shelf_layer=0x7f020007;
+        public static final int file_item_title_bg=0x7f020008;
+        public static final int home_pg=0x7f020009;
+        public static final int ic_category_mark=0x7f02000a;
+        public static final int ic_item_normal_bg=0x7f02000b;
+        public static final int ic_item_selected_bg=0x7f02000c;
+        public static final int ic_launcher=0x7f02000d;
+        public static final int ic_shelf_category_divider=0x7f02000e;
+        public static final int ic_top_bar_category=0x7f02000f;
+        public static final int ic_top_divider=0x7f020010;
+        public static final int item1=0x7f020011;
+        public static final int item2=0x7f020012;
+        public static final int item3=0x7f020013;
+        public static final int item4=0x7f020014;
+        public static final int menu_search_nor=0x7f020015;
+        public static final int right_more_unsel=0x7f020016;
+        public static final int rootblock_default_bg=0x7f020017;
+        public static final int selector_category_item=0x7f020018;
+        public static final int tab_last=0x7f020019;
+        public static final int tab_last_selected=0x7f02001a;
+        public static final int tab_selector_bookcase=0x7f02001b;
+        public static final int tab_selector_bookhistory=0x7f02001c;
+        public static final int tab_selector_bookstore=0x7f02001d;
+        public static final int tab_selector_checked_bg=0x7f02001e;
+        public static final int tab_shelf=0x7f02001f;
+        public static final int tab_shelf_selected=0x7f020020;
+        public static final int tab_shop=0x7f020021;
+        public static final int tab_shop_selected=0x7f020022;
+        public static final int tital=0x7f020023;
     }
     public static final class id {
-        public static final int action_settings=0x7f09000d;
+        public static final int action_settings=0x7f09000f;
         public static final int book_cheng=0x7f090004;
+        public static final int book_gridview=0x7f090007;
         public static final int book_history=0x7f090005;
         public static final int book_jia=0x7f090003;
+        public static final int iv_item=0x7f09000d;
         public static final int main_content=0x7f090001;
+        public static final int menu_grid=0x7f090009;
         public static final int query=0x7f09000c;
         public static final int rootbg=0x7f090006;
-        public static final int set1=0x7f090007;
-        public static final int set2=0x7f090008;
-        public static final int set3=0x7f090009;
         public static final int slide_menu=0x7f090000;
         public static final int tab_menu=0x7f090002;
+        public static final int title_bar=0x7f090008;
         public static final int title_bar_menu_btn=0x7f09000a;
         public static final int title_bar_name=0x7f09000b;
+        public static final int tv_item=0x7f09000e;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -80,6 +113,7 @@ public final class R {
         public static final int frament_bookstore=0x7f030003;
         public static final int layout_menu=0x7f030004;
         public static final int layout_title_bar=0x7f030005;
+        public static final int list_item_menu=0x7f030006;
     }
     public static final class menu {
         public static final int main=0x7f080000;
@@ -117,4 +151,52 @@ public final class R {
          */
         public static final int AppTheme=0x7f070001;
     }
+    public static final class styleable {
+        /** Attributes that can be used with a CircleImageView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #CircleImageView_border_color com.hncj.activity:border_color}</code></td><td></td></tr>
+           <tr><td><code>{@link #CircleImageView_border_width com.hncj.activity:border_width}</code></td><td></td></tr>
+           </table>
+           @see #CircleImageView_border_color
+           @see #CircleImageView_border_width
+         */
+        public static final int[] CircleImageView = {
+            0x7f010000, 0x7f010001
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.hncj.activity.R.attr#border_color}
+          attribute's value can be found in the {@link #CircleImageView} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.hncj.activity:border_color
+        */
+        public static final int CircleImageView_border_color = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.hncj.activity.R.attr#border_width}
+          attribute's value can be found in the {@link #CircleImageView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.hncj.activity:border_width
+        */
+        public static final int CircleImageView_border_width = 0;
+    };
 }

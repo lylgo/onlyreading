@@ -6,4 +6,6 @@
     <color name="color_2">#2a4253</color>
     <color name="color_3">#f26d7e</color>
     <color name="color_4">#a286c0</color>
+    <color name="dark">#FF222222</color>
+    <color name="light">#FFEEEEEE</color>
 </resources>

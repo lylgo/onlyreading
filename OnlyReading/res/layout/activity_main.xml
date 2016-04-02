@@ -7,16 +7,12 @@
         android:id="@+id/slide_menu"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
-
         <include layout="@layout/layout_menu" />
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
-
             <include layout="@layout/layout_title_bar" />
-
             <FrameLayout
                 android:id="@+id/main_content"
                 android:layout_width="fill_parent"
@@ -32,7 +28,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/home_pg"
                 android:orientation="horizontal" >
-
                 <RadioButton
                     android:id="@+id/book_jia"
                     android:layout_width="0dp"
@@ -47,7 +42,6 @@
                     android:paddingTop="8dp"
                     android:text="书架"
                     android:textColor="@color/tab_selector_tv_color" />
-
                 <RadioButton
                     android:id="@+id/book_cheng"
                     android:layout_width="0dp"
@@ -61,7 +55,6 @@
                     android:paddingTop="8dp"
                     android:text="书库"
                     android:textColor="@color/tab_selector_tv_color" />
-
                 <RadioButton
                     android:id="@+id/book_history"
                     android:layout_width="0dp"
@@ -77,5 +70,4 @@
             </RadioGroup>
         </LinearLayout>
     </cn.hncj.or.ui.SlideMenu>
-
 </LinearLayout>
