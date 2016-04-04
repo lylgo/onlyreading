@@ -1,4 +1,5 @@
 package cn.hncj.or.activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -85,7 +86,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			break;
 		}
 	}
-
+/**
+ * 查找图书按钮
+ */
+	public void query(View view){
+		 Intent intent=new Intent();
+		 intent.setClass(this, QueryBookActivity.class);
+		 startActivity(intent);
+		 this.finish();
+	}
 	/**
 	 * 加载Fragment布局
 	 */

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/querybook"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="@drawable/bg_title_bar" >
+
+        <Button
+            android:id="@+id/btn_leftTop"
+            android:layout_width="50dp"
+            android:layout_height="36dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dip"
+            android:background="@drawable/back"
+            android:onClick="back"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:text="返回"
+            android:textColor="#ffffff" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="40dip" >
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0.2dp"
+            android:background="@drawable/bookbox_top" />
+
+        <TextView
+            android:id="@+id/flsh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="1dip"
+            android:textColor="#000000"
+            android:textSize="16sp" >
+        </TextView>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0.2dp"
+            android:background="@drawable/bookbox_top" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/booklist"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#ffffff"
+        android:cacheColorHint="#00000000"
+        android:divider="@drawable/listviewx" >
+    </ListView>
+
+</LinearLayout>
