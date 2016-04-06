@@ -15,7 +15,6 @@
         android:layout_marginTop="10dp"
         android:scaleType="fitXY"
         android:src="@drawable/book_default_cover" />
-
     <TextView
         android:id="@+id/book_name"
         android:layout_width="85dp"
@@ -23,12 +22,12 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="3dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="23dp"
         android:ellipsize="middle"
         android:gravity="center"
         android:padding="2dp"
         android:singleLine="true"
-        android:textColor="#FA713E"
-        android:textSize="16sp"
+        android:textColor="#FF3366"
+        android:textSize="14sp"
         android:textStyle="bold" />
 </FrameLayout>

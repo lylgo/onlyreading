@@ -4,16 +4,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 import cn.hncj.or.config.Const;
 import cn.hncj.or.db.BookDb;
 
@@ -44,8 +48,9 @@ public class QueryBookActivity extends BaseActivity {
 	private PopupWindow popupWindow;
 	private View popview;
 	private Button button;
-	private Button okButton;
-	private BookDb bookdb;//加载数据库
+	private Button okButton, canButton;
+	private BookDb bookdb;// 加载数据库
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,17 +59,17 @@ public class QueryBookActivity extends BaseActivity {
 		pathtext = (TextView) findViewById(R.id.flsh);
 		showDialog();
 		Thread thread = new Thread(runnable);
-		thread.start();//开启线程查找sd卡
-		listListenter(); //listView的监听
+		thread.start();// 开启线程查找sd卡
+		listListenter(); // listView的监听
 		button = (Button) findViewById(R.id.btn_leftTop);
 		pathtext.setText("路径：" + mCurrentFilePath);
-		bookdb=new BookDb(this, Const.DB_TNAME);//加载数据库
-		//加载弹窗
-		popview = this.getLayoutInflater().inflate(R.layout.query_book_activity,
+		bookdb = new BookDb(this, Const.DB_TNAME);// 加载数据库
+		// 加载弹窗
+		popview = this.getLayoutInflater().inflate(R.layout.addbook_popwindow,
 				null);
 		popupWindow = new PopupWindow(popview, LayoutParams.FILL_PARENT,
 				LayoutParams.WRAP_CONTENT);
-		
+
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -81,19 +86,32 @@ public class QueryBookActivity extends BaseActivity {
 	/**
 	 * 添加的弹窗
 	 */
-	public void showpop() {
-		popupWindow.showAtLocation(findViewById(R.id.querybook), Gravity.BOTTOM,
-				0, 0);
+	public void showpop( final String parent,final String path) {
+		popupWindow.showAtLocation(findViewById(R.id.querybook),
+				Gravity.BOTTOM, 0, 0);
+		popupWindow.setFocusable(true);// 获得焦点
+		popupWindow.setOutsideTouchable(true);// 点击外部消失
 		okButton = (Button) popview.findViewById(R.id.add_book);// 确认导入按钮
-		okButton.setText("确认导入");
+		canButton = (Button) popview.findViewById(R.id.cencel_book);
+		okButton.setBackgroundResource(R.drawable.ok_button);
 		okButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				insert(parent, path);//插入数据
+				popupWindow.dismiss();//提示框消失
 				
 			}
 		});
+		canButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				popupWindow.dismiss();
+			}
+		});
 	}
+
 	/**
 	 * 监听listview
 	 */
@@ -103,7 +121,10 @@ public class QueryBookActivity extends BaseActivity {
 					long arg3) {
 				// TODO Auto-generated method stub
 				final File mFile = new File(mFilePaths.get(arg2));
-				fileEndsname = mFile.getName().substring(mFile.getName().lastIndexOf(".") + 1,mFile.getName().length()).toLowerCase();// 取出文件后缀名并转成小写
+				fileEndsname = mFile
+						.getName()
+						.substring(mFile.getName().lastIndexOf(".") + 1,
+								mFile.getName().length()).toLowerCase();// 取出文件后缀名并转成小写
 				if (mFile.canRead()) {// 如果该文件是可读的，我们进去查看文件
 					if (mFile.isDirectory()) {// 如果是文件夹，则直接进入该文件夹，查看文件目录
 						initFileListInfo(mFilePaths.get(arg2));
@@ -111,18 +132,33 @@ public class QueryBookActivity extends BaseActivity {
 								QueryBookActivity.this, mFileName, mFilePaths));
 						pathtext.setText("路径：" + mCurrentFilePath);
 					} else if (fileEndsname.equals("txt")) {
-						// // 导入到书架
-						// import_bookName = mFile.getName();
-						// bookThread.state = BookFinal.BOOK_IMPORT;
-						if(!popupWindow.isShowing()){
-							showpop();
-						}
+						Log.i("TTT",mFilePaths.get(arg2) + "------"
+										+ mFile.getParent());
+						showpop(mFile.getParent(), mFilePaths.get(arg2));
 					} else {// 如果不是文件夹
 						openFile(mFile);
 					}
 				}
 			}
 		});
+	}
+
+	/**
+	 * 将点击的数据插入数据库
+	 */
+	public void insert(String parent, String path) {
+		SQLiteDatabase db = bookdb.getWritableDatabase();
+		String str[]={"path"};
+		Cursor cursor=db.query(Const.DB_TNAME, str, "path=?",new String[]{path}, null, null, null);
+		if(cursor.getCount()!=0){
+			Toast.makeText(this,"该书目已存在", Toast.LENGTH_SHORT).show();
+		}else{
+			String sql= "insert into " + Const.DB_TNAME + " (parent,path, type,now,ready) values('" + parent + "','" + path
+					+ "',0,0,null" + ");";
+			Toast.makeText(this, "添加书目成功！",Toast.LENGTH_SHORT).show();
+			db.execSQL(sql);	
+		}
+		db.close();
 	}
 
 	/**

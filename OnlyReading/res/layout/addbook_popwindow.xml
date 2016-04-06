@@ -4,10 +4,26 @@
     android:layout_height="wrap_content"
     android:background="@drawable/add_book" >
     <Button
+        android:id="@+id/cencel_book"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="35dp"
+        android:background="@drawable/ok_button"
+        android:text="取消"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:textStyle="bold" >
+    </Button>
+
+    <Button
         android:id="@+id/add_book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="35dp"
+        android:background="@drawable/ok_button"
+        android:text="导入"
         android:textColor="#ffffff"
         android:textSize="20sp"
         android:textStyle="bold" >
