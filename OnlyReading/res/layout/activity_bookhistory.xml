@@ -16,6 +16,4 @@
 		android:text="http://www.cnblogs.com/xiaofeixiang"
 		android:textSize="15sp"
       />
-    
-
 </LinearLayout>

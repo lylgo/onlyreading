@@ -27,11 +27,10 @@ public class MyImageView extends ImageView{
 	private Bitmap back;		//背景图片资源
 	private Bitmap mBitmap;		//生成位图	
 	private double startX = 0;	//移动起始X坐标
-	//构�?�函数中必须有context,attributeSet这两�?	参数，否则父类无法调�?
+	//构�?�函数中必须有context,attributeSet这两�?	参数，否则父类无法调�?
 	public MyImageView(Context context,AttributeSet attributeSet)
 	{
 		super(context, attributeSet);
-	    //由于不是Activity子类，只能�?�过DisplayMetrics来获取屏幕信�?
 	    DisplayMetrics dm = getResources().getDisplayMetrics();
 	    //屏幕宽度
 	    int screenWidth = dm.widthPixels;  
@@ -45,7 +44,6 @@ public class MyImageView extends ImageView{
 			{
 				if (msg.what == 1)
 				{
-					Log.i("TAG", "-----"+startX);
 					if (startX <= -80)
 					{
 						startX = 0;
@@ -71,7 +69,6 @@ public class MyImageView extends ImageView{
 	@Override
 	public void onDraw(Canvas canvas)
 	{
-		Log.i("TAG", "-----onDraw");
 		Bitmap bitmap2 = Bitmap.createBitmap(mBitmap);
 		canvas.drawBitmap(mBitmap, (float)startX , 0 , null);
 	}

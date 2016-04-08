@@ -27,6 +27,7 @@
             android:name="cn.hncj.or.activity.QueryBookActivity"
             android:label="@string/title_activity_query_book" >
         </activity>
+        <activity android:name="cn.hncj.or.activity.BookhistoryActivity" />
+        <activity android:name="cn.hncj.or.activity.BookstoreActivity" />
     </application>
-
 </manifest>

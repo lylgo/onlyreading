@@ -5,7 +5,7 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical" >
-
+    
     <ImageView
         android:id="@+id/image"
         android:layout_width="80dp"
@@ -22,7 +22,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="3dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="26dp"
         android:ellipsize="middle"
         android:gravity="center"
         android:padding="2dp"
@@ -30,4 +30,13 @@
         android:textColor="#FF3366"
         android:textSize="14sp"
         android:textStyle="bold" />
+    <TextView 
+        android:id="@+id/del_book"
+        android:background="@drawable/delete_unsel"
+        android:layout_width="20dip"
+        android:layout_height="20dip"
+        android:visibility="invisible"
+        android:layout_marginTop="8dip"
+        android:layout_marginLeft="83dp"
+        />
 </FrameLayout>
