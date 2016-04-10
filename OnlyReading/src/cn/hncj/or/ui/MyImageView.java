@@ -27,7 +27,7 @@ public class MyImageView extends ImageView{
 	private Bitmap back;		//背景图片资源
 	private Bitmap mBitmap;		//生成位图	
 	private double startX = 0;	//移动起始X坐标
-	//构�?�函数中必须有context,attributeSet这两�?	参数，否则父类无法调�?
+	//构函数中必须有context,attributeSet这两参数，否则父类无法调
 	public MyImageView(Context context,AttributeSet attributeSet)
 	{
 		super(context, attributeSet);
@@ -37,7 +37,7 @@ public class MyImageView extends ImageView{
 	    //屏幕高度
 	    int screenHeight = dm.heightPixels;      
 		back = BitmapFactory.decodeResource(context.getResources(), R.drawable.rootblock_default_bg);
-		mBitmap = Bitmap.createScaledBitmap(back, screenWidth*3, screenHeight, true);    
+		mBitmap = Bitmap.createScaledBitmap(back, screenWidth*2, screenHeight, true);    
 		final Handler handler = new Handler()
 		{
 			public void handleMessage(Message msg)
@@ -63,13 +63,12 @@ public class MyImageView extends ImageView{
 			{
 				handler.sendEmptyMessage(1);
 			}
-		}, 0 , 10);
+		}, 0 , 20);
 	}
 	
 	@Override
 	public void onDraw(Canvas canvas)
 	{
-		Bitmap bitmap2 = Bitmap.createBitmap(mBitmap);
 		canvas.drawBitmap(mBitmap, (float)startX , 0 , null);
 	}
 }

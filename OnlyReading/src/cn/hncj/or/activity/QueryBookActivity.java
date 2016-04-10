@@ -142,7 +142,6 @@ public class QueryBookActivity extends BaseActivity {
 			}
 		});
 	}
-
 	/**
 	 * 将点击的数据插入数据库
 	 */
@@ -160,7 +159,6 @@ public class QueryBookActivity extends BaseActivity {
 		}
 		db.close();
 	}
-
 	/**
 	 * 遍历文件
 	 */

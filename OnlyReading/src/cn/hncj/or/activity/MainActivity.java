@@ -6,11 +6,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -28,6 +32,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
@@ -36,12 +41,13 @@ import cn.hncj.or.config.Const;
 import cn.hncj.or.db.BookDb;
 import cn.hncj.or.ui.CircleImageView;
 import cn.hncj.or.ui.MyGridView;
+import cn.hncj.or.ui.MyImageView;
 import cn.hncj.or.ui.SlideMenu;
 import cn.hncj.or.utils.MyApplication;
 
 import com.hncj.activity.R;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends BaseActivity implements OnClickListener {
 	private SlideMenu slideMenu;
 	private RadioGroup group;
 	private GridView menugridView;
@@ -52,8 +58,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	private MyGridView gridView;
 	private BookDb bookdb;// 创建数据库
 	private BookAdapter bookadapter;
-	private Dialog builder;
-	private TextView debutton;
+	private SharedPreferences sp;
+	private Dialog builder,userDiag;
+	private TextView debutton, nickname;
+	private CircleImageView userImage;
+	private RadioButton rabutton;
+	private int local;// 删除标志位
 	private static String[] names = { "收藏", "下载", "账户", "设置" };
 	private static int[] ids = { R.drawable.item1, R.drawable.item2,
 			R.drawable.item3, R.drawable.item4 };
@@ -65,6 +75,14 @@ public class MainActivity extends Activity implements OnClickListener {
 		slideMenu = (SlideMenu) findViewById(R.id.slide_menu);
 		cricleview = (CircleImageView) findViewById(R.id.title_bar_menu_btn);
 		menugridView = (GridView) findViewById(R.id.menu_grid);
+		rabutton = (RadioButton) findViewById(R.id.book_jia);
+		nickname = (TextView) findViewById(R.id.nickname);// 昵称
+		userImage=(CircleImageView) findViewById(R.id.title_Image);
+		sp = getSharedPreferences("land", MODE_PRIVATE);
+		String name=sp.getString("name", "尚未登录");
+		if(name!=null){
+			nickname.setText(name);
+		}
 		menugridView.setAdapter(new Myadpter());
 		cricleview.setOnClickListener(this);
 		initView();
@@ -81,11 +99,13 @@ public class MainActivity extends Activity implements OnClickListener {
 				view.setAnimation(animation);
 				debutton = (TextView) view.findViewById(R.id.del_book);
 				debutton.setVisibility(View.VISIBLE);
+				local = position;
 				debutton.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						showdeletDialog();
+
+						showdeletDialog(local);
 					}
 				});
 				return true;
@@ -98,9 +118,9 @@ public class MainActivity extends Activity implements OnClickListener {
 					int position, long id) {
 				// TODO Auto-generated method stub
 				// 修改数据库中图书的最近阅读状态为1
-				String s = (String) bookItem.get(position).get("path");
+				String path = (String) bookItem.get(position).get("path");
 				SQLiteDatabase db = bookdb.getWritableDatabase();
-				File f = new File(s);
+				File f = new File(path);
 				if (f.length() == 0) {
 					Toast.makeText(MainActivity.this, "该文件为空文件",
 							Toast.LENGTH_SHORT).show();
@@ -109,14 +129,57 @@ public class MainActivity extends Activity implements OnClickListener {
 					ContentValues values = new ContentValues();
 					values.put("now", 1);// key为字段名，value为值
 					db.update(Const.DB_TNAME, values, "path=?",
-							new String[] { s });// 修改状态为图书被已被导入
+							new String[] { path });// 修改状态为已读
 					db.close();
 					Intent intent = new Intent();
-					String path = (String) bookItem.get(position).get("path");
-					// sintent.setClass(MainActivity.this, Read.class);
-					intent.putExtra("path", path);
+					intent.setClass(MainActivity.this, ReadBookActivity.class);
+					Log.i("LL", bookItem.get(position).get("BookName")
+							.toString()
+							+ ".txt");
+					intent.putExtra("path",
+							bookItem.get(position).get("BookName").toString()
+									+ ".txt");
 					startActivity(intent);
 				}
+			}
+		});
+		/**
+		 * 菜单监听
+		 */
+		menugridView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				switch (position) {
+				case 0:
+					Log.i("FF", "点击了1");
+					break;
+				case 1:
+					Log.i("FF", "点击了2");
+					break;
+				case 2:
+					Intent intent = new Intent(MainActivity.this,
+							RegisterActivity.class);
+					startActivity(intent);
+					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
+					break;
+				case 3:
+					break;
+				default:
+					break;
+				}
+			}
+		});
+		/**
+		 * 头像监听
+		 */
+		userImage.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				showUerImage();
 			}
 		});
 	}
@@ -124,7 +187,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	/**
 	 * 删除书的Dialog
 	 */
-	public void showdeletDialog() {
+	public void showdeletDialog(final int local) {
 		builder = new Dialog(this, R.style.dialog);
 		builder.setCanceledOnTouchOutside(false);
 		View view = View.inflate(MainActivity.this, R.layout.dialog_deletebook,
@@ -145,7 +208,11 @@ public class MainActivity extends Activity implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				// 删除操作
+				String path = bookItem.get(local).get("path").toString();
+				deleteBook(path);
+				reanview.clearAnimation();
+				loadBookdata();
+				builder.dismiss();
 			}
 		});
 		// 捕捉回退键
@@ -222,7 +289,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 
 	/**
-	 * 加载Fragment布局
+	 * 菜单跳转
 	 */
 	public void initView() {
 		group = (RadioGroup) findViewById(R.id.tab_menu);
@@ -242,6 +309,10 @@ public class MainActivity extends Activity implements OnClickListener {
 					Intent intn = new Intent(MainActivity.this,
 							BookhistoryActivity.class);
 					startActivity(intn);
+					sp = getSharedPreferences("history", MODE_PRIVATE);
+					Editor ed = sp.edit();
+					ed.putString("flag", "flag");
+					ed.commit();
 					break;
 				default:
 					break;
@@ -249,6 +320,18 @@ public class MainActivity extends Activity implements OnClickListener {
 
 			}
 		});
+	}
+
+	/**
+	 * 删除图书
+	 * 
+	 * @return
+	 */
+	public void deleteBook(String path) {
+		String dewhere[] = { path };
+		SQLiteDatabase database = bookdb.getWritableDatabase();
+		database.delete(Const.DB_TNAME, "path=?", dewhere);
+		database.close();
 	}
 
 	/**
@@ -281,7 +364,7 @@ public class MainActivity extends Activity implements OnClickListener {
 			map = new HashMap<String, Object>();
 			map.put("BookName", name != null ? name : "未知");
 			map.put("path", file.getPath());
-			map.put("com", 0 + file.getName());// 单独用于排序
+			map.put("com", 0 + file.getName());
 			bookItem.add(map);
 		}
 		bookadapter = new BookAdapter();
@@ -316,6 +399,25 @@ public class MainActivity extends Activity implements OnClickListener {
 			bname.setText(bookItem.get(position).get("BookName").toString());
 			return contentView;
 		}
+	}
+  /**
+   * 头像Dialog
+   */
+	public void showUerImage(){
+		AlertDialog.Builder builder=new Builder(this);
+		View view=View.inflate(this, R.layout.dialog_showuser, null);
+		builder.setView(view);
+		userDiag=builder.show();
+	}
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		sp = getSharedPreferences("history", MODE_PRIVATE);
+		String flag = sp.getString("flag", null);
+		if (flag != null) {
+			rabutton.setChecked(true);
+		}
+		super.onPause();
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package cn.hncj.or.db;
 
+import cn.hncj.or.config.Const;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -10,11 +11,10 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class BookDb extends SQLiteOpenHelper {
 	private static final int DATA_VERSION = 1;
-	private static final String  DATABASE_NAME="onlyreading.db";
 	private String table;
 
 	public BookDb(Context context, String name) {
-		super(context, DATABASE_NAME, null, DATA_VERSION);
+		super(context, Const.DATABASE_NAME, null, DATA_VERSION);
 		this.table=name;
 	}
 

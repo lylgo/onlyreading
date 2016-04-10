@@ -4,37 +4,44 @@
     android:layout_width="240dip"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
+
     <RelativeLayout
         android:layout_width="240dip"
         android:layout_height="180dp"
         android:background="@drawable/bg_sliding_menu" >
+
         <cn.hncj.or.ui.CircleImageView
-            android:id="@+id/title_bar"
+            android:id="@+id/title_Image"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
+            android:clickable="true"
             android:src="@drawable/tital"
             app:border_color="@color/light"
             app:border_width="2dp" />
 
         <TextView
+            android:id="@+id/nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/title_bar"
+            android:layout_below="@id/title_Image"
             android:layout_centerHorizontal="true"
             android:paddingTop="10dp"
-            android:text="昵称"
+            android:text="尚未登录"
             android:textColor="@color/light" />
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/bookbox_hori_bottom" />
     </RelativeLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="16dp" />
+
     <GridView
         android:id="@+id/menu_grid"
         android:layout_width="240dip"
@@ -45,45 +52,53 @@
         android:listSelector="#00000000"
         android:numColumns="2" >
     </GridView>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="16dp" />
+
     <LinearLayout
         android:layout_width="240dip"
         android:layout_height="fill_parent"
         android:orientation="vertical" >
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="10dp"
             android:background="#E9E9E9" />
+
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:drawableRight="@drawable/right_more_unsel"
             android:gravity="center_vertical"
             android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:text="会员专区 "
-             android:paddingRight="20dp"
             android:textColor="#9E9E9E"
             android:textSize="16sp" />
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="10dp"
             android:background="#E9E9E9" />
+
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:drawableRight="@drawable/right_more_unsel"
-            android:paddingRight="20dp"
             android:gravity="center_vertical"
             android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:text="关于我们 "
             android:textColor="#9E9E9E"
             android:textSize="16sp" />
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="10dp"
             android:background="#E9E9E9" />
+
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -94,4 +109,5 @@
             android:textColor="#9E9E9E"
             android:textSize="16sp" />
     </LinearLayout>
+
 </LinearLayout>

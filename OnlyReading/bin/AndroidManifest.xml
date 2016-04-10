@@ -7,6 +7,7 @@
     <uses-sdk
         android:minSdkVersion="17"
         android:targetSdkVersion="17" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name="cn.hncj.or.utils.MyApplication"
@@ -29,5 +30,7 @@
         </activity>
         <activity android:name="cn.hncj.or.activity.BookhistoryActivity" />
         <activity android:name="cn.hncj.or.activity.BookstoreActivity" />
+        <activity android:name="cn.hncj.or.activity.ReadBookActivity"/>
+        <activity android:name="cn.hncj.or.activity.RegisterActivity"/>
     </application>
 </manifest>

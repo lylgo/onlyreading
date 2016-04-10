@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45.0dip"
+        android:background="@drawable/bg_title_bar"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/back_home"
+            android:layout_width="15dip"
+            android:layout_height="15dip"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dip"
+            android:background="@drawable/left_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dip"
+            android:text="注册"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+    </LinearLayout>
+    
+    <EditText
+        android:id="@+id/niname"
+        android:layout_width="280dip"
+        android:layout_height="40dip"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dip"
+        android:background="@null"
+        android:hint="昵称"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="280dip"
+        android:layout_height="1dip"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/listviewx" />
+    <EditText
+        android:id="@+id/pass"
+        android:layout_width="280dip"
+        android:layout_height="40dip"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dip"
+        android:background="@null"
+        android:inputType="phone"
+        android:hint="请输入密码"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="280dip"
+        android:layout_height="1dip"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/listviewx" />
+     <EditText
+         android:id="@+id/repass"
+        android:layout_width="280dip"
+        android:layout_height="40dip"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dip"
+        android:background="@null"
+        android:inputType="phone"
+        android:hint="请再次输入密码"
+        android:textSize="16sp" />
+    <View
+        android:layout_width="280dip"
+        android:layout_height="1dip"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/listviewx" />
+<!--  
+    <LinearLayout
+        android:layout_width="300dip"
+        android:layout_height="50dip"
+        android:orientation="horizontal" >
+        <EditText
+            android:layout_marginLeft="20dip"
+            android:layout_width="220dip"
+            android:layout_height="40dip"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dip"
+            android:background="@null"
+            android:hint="电话号码"
+            android:textSize="16sp" />
+        <TextView  android:layout_height="30dip"
+            android:layout_marginTop="10dip"
+            android:text="点击发送"
+            android:textColor="#545454"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"/>
+    </LinearLayout>
+    -->
+    <View
+        android:layout_width="200dip"
+        android:layout_height="1dip"
+        android:layout_marginLeft="20dip"
+        android:layout_gravity="left"
+        android:background="@drawable/listviewx" />
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="280dip"
+        android:layout_height="40dip"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dip"
+        android:background="@null"
+        android:hint="请输入邮箱"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="280dip"
+        android:layout_height="1dip"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/listviewx" />
+
+    <Button
+        android:id="@+id/re_button"
+        android:layout_width="270dip"
+        android:layout_height="40dip"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="23dip"
+        android:background="@drawable/reg_button"
+        android:gravity="center"
+        android:text="注册"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+</LinearLayout>
