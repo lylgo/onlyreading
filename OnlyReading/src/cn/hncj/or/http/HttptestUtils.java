@@ -13,11 +13,10 @@ import java.util.UUID;
 import android.graphics.Bitmap;
 import android.util.Base64;
 
-public class HttpUtils {
-	private static String path = "http://192.168.0.109:8085/reguser";
+public class HttptestUtils {
 	private static OutputStream outputStream;
 	private static int response;
-	public static String submitPostData(Map<String,String> map, String encode) {
+	public static String submitPostData(Map<String,String> map, String encode,String path) {
 		byte[] data = getRequestData( map, encode).toString().getBytes();// 获得请求体
 		try {
 			HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(

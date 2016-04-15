@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -16,9 +14,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -30,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -39,10 +41,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import cn.hncj.or.config.Const;
 import cn.hncj.or.db.BookDb;
+import cn.hncj.or.http.ImageHttpUtils;
 import cn.hncj.or.ui.CircleImageView;
 import cn.hncj.or.ui.MyGridView;
-import cn.hncj.or.ui.MyImageView;
 import cn.hncj.or.ui.SlideMenu;
+import cn.hncj.or.utils.CompressBitmapUtils;
 import cn.hncj.or.utils.MyApplication;
 
 import com.hncj.activity.R;
@@ -52,22 +55,27 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	private RadioGroup group;
 	private GridView menugridView;
 	private CircleImageView cricleview;
-	private View reanview;// ÒÆ³ı¶¯»­
-	private ArrayList<HashMap<String, Object>> bookItem = null;// ±¾µØÊé¼®ĞÅÏ¢
+	private View reanview;// ç§»é™¤åŠ¨ç”»
+	private ArrayList<HashMap<String, Object>> bookItem = null;// æœ¬åœ°ä¹¦ç±ä¿¡æ¯
 	private HashMap<String, Object> map;
 	private MyGridView gridView;
-	private BookDb bookdb;// ´´½¨Êı¾İ¿â
+	private BookDb bookdb;// åˆ›å»ºæ•°æ®åº“
 	private BookAdapter bookadapter;
 	private SharedPreferences sp;
-	private Dialog builder,userDiag;
+	private Dialog builder, userDiag, ImageDiag;
 	private TextView debutton, nickname;
-	private CircleImageView userImage;
+	private CircleImageView userImage, title_Image;
 	private RadioButton rabutton;
-	private int local;// É¾³ı±êÖ¾Î»
-	private static String[] names = { "ÊÕ²Ø", "ÏÂÔØ", "ÕË»§", "ÉèÖÃ" };
+	private int local;// åˆ é™¤æ ‡å¿—ä½
+	private Bitmap bitmap;// å‰ªåˆ‡åbitmap
+	protected File tempFile;
+	private String name, email;
+	private static String[] names = { "æ”¶è—", "ä¸‹è½½", "è´¦æˆ·", "è®¾ç½®" };
 	private static int[] ids = { R.drawable.item1, R.drawable.item2,
 			R.drawable.item3, R.drawable.item4 };
+	private static final String PHOTO_FILE_NAME = "temp_photo.jpg";
 
+	@SuppressLint("CutPasteId")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -76,12 +84,17 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		cricleview = (CircleImageView) findViewById(R.id.title_bar_menu_btn);
 		menugridView = (GridView) findViewById(R.id.menu_grid);
 		rabutton = (RadioButton) findViewById(R.id.book_jia);
-		nickname = (TextView) findViewById(R.id.nickname);// êÇ³Æ
-		userImage=(CircleImageView) findViewById(R.id.title_Image);
+		nickname = (TextView) findViewById(R.id.nickname);// æ˜µç§°
+		userImage = (CircleImageView) findViewById(R.id.title_Image);
+		title_Image = (CircleImageView) findViewById(R.id.title_bar_menu_btn);
 		sp = getSharedPreferences("land", MODE_PRIVATE);
-		String name=sp.getString("name", "ÉĞÎ´µÇÂ¼");
-		if(name!=null){
-			nickname.setText(name);
+		name = sp.getString("name", "å°šæœªç™»å½•");
+		email = sp.getString("email", "");
+		nickname.setText(name);
+		if (!email.equals("")) {
+			CompressBitmapUtils.getLocalBitmap(
+					Const.LocalFile + email + ".png", email, userImage,
+					title_Image);
 		}
 		menugridView.setAdapter(new Myadpter());
 		cricleview.setOnClickListener(this);
@@ -111,25 +124,25 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				return true;
 			}
 		});
-		// µ¥´Îµã»÷ÊÂ¼ş
+		// å•æ¬¡ç‚¹å‡»äº‹ä»¶
 		gridView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				// ĞŞ¸ÄÊı¾İ¿âÖĞÍ¼ÊéµÄ×î½üÔÄ¶Á×´Ì¬Îª1
+				// ä¿®æ”¹æ•°æ®åº“ä¸­å›¾ä¹¦çš„æœ€è¿‘é˜…è¯»çŠ¶æ€ä¸º1
 				String path = (String) bookItem.get(position).get("path");
 				SQLiteDatabase db = bookdb.getWritableDatabase();
 				File f = new File(path);
 				if (f.length() == 0) {
-					Toast.makeText(MainActivity.this, "¸ÃÎÄ¼şÎª¿ÕÎÄ¼ş",
+					Toast.makeText(MainActivity.this, "è¯¥æ–‡ä»¶ä¸ºç©ºæ–‡ä»¶",
 							Toast.LENGTH_SHORT).show();
 
 				} else {
 					ContentValues values = new ContentValues();
-					values.put("now", 1);// keyÎª×Ö¶ÎÃû£¬valueÎªÖµ
+					values.put("now", 1);// keyä¸ºå­—æ®µåï¼Œvalueä¸ºå€¼
 					db.update(Const.DB_TNAME, values, "path=?",
-							new String[] { path });// ĞŞ¸Ä×´Ì¬ÎªÒÑ¶Á
+							new String[] { path });// ä¿®æ”¹çŠ¶æ€ä¸ºå·²è¯»
 					db.close();
 					Intent intent = new Intent();
 					intent.setClass(MainActivity.this, ReadBookActivity.class);
@@ -144,7 +157,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			}
 		});
 		/**
-		 * ²Ëµ¥¼àÌı
+		 * èœå•ç›‘å¬
 		 */
 		menugridView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -154,16 +167,17 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				// TODO Auto-generated method stub
 				switch (position) {
 				case 0:
-					Log.i("FF", "µã»÷ÁË1");
+					sp = getSharedPreferences("land", MODE_PRIVATE);
+					Editor editor = sp.edit();
+					editor.putString("name", "å°šæœªç™»é™†");
+					editor.putString("email", "");
+					editor.putString("date", "");
+					editor.commit();
+					Toast.makeText(getApplication(), "s", 1).show();
 					break;
 				case 1:
-					Log.i("FF", "µã»÷ÁË2");
 					break;
 				case 2:
-					Intent intent = new Intent(MainActivity.this,
-							RegisterActivity.class);
-					startActivity(intent);
-					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
 					break;
 				case 3:
 					break;
@@ -173,19 +187,27 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			}
 		});
 		/**
-		 * Í·Ïñ¼àÌı
+		 * å¤´åƒç›‘å¬
 		 */
 		userImage.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				showUerImage();
+				if (email.equals("")) {
+					Intent intent = new Intent(MainActivity.this,
+							LoginActivity.class);
+					startActivity(intent);
+					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
+				} else {
+					showUerImage();
+				}
+
 			}
 		});
 	}
 
 	/**
-	 * É¾³ıÊéµÄDialog
+	 * åˆ é™¤ä¹¦çš„Dialog
 	 */
 	public void showdeletDialog(final int local) {
 		builder = new Dialog(this, R.style.dialog);
@@ -200,7 +222,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				debutton.setVisibility(View.INVISIBLE);
-				reanview.clearAnimation();// ÒÆ³ı¶¯»­
+				reanview.clearAnimation();// ç§»é™¤åŠ¨ç”»
 				builder.dismiss();
 			}
 		});
@@ -215,7 +237,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				builder.dismiss();
 			}
 		});
-		// ²¶×½»ØÍË¼ü
+		// æ•æ‰å›é€€é”®
 		builder.setOnCancelListener(new OnCancelListener() {
 			@Override
 			public void onCancel(DialogInterface dialog) {
@@ -229,7 +251,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	/**
-	 * ²Ëµ¥ÊÊÅä
+	 * èœå•é€‚é…
 	 */
 	class Myadpter extends BaseAdapter {
 		@Override
@@ -263,7 +285,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	/**
-	 * ¼ÓÔØ²à±ß²Ëµ¥
+	 * åŠ è½½ä¾§è¾¹èœå•
 	 */
 	@Override
 	public void onClick(View v) {
@@ -279,17 +301,16 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	/**
-	 * ²éÕÒÍ¼Êé°´Å¥
+	 * æŸ¥æ‰¾å›¾ä¹¦æŒ‰é’®
 	 */
 	public void query(View view) {
 		Intent intent = new Intent();
 		intent.setClass(this, QueryBookActivity.class);
 		startActivity(intent);
-		this.finish();
 	}
 
 	/**
-	 * ²Ëµ¥Ìø×ª
+	 * èœå•è·³è½¬
 	 */
 	public void initView() {
 		group = (RadioGroup) findViewById(R.id.tab_menu);
@@ -309,6 +330,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 					Intent intn = new Intent(MainActivity.this,
 							BookhistoryActivity.class);
 					startActivity(intn);
+					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
 					sp = getSharedPreferences("history", MODE_PRIVATE);
 					Editor ed = sp.edit();
 					ed.putString("flag", "flag");
@@ -323,7 +345,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	/**
-	 * É¾³ıÍ¼Êé
+	 * åˆ é™¤å›¾ä¹¦
 	 * 
 	 * @return
 	 */
@@ -335,10 +357,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	/**
-	 * ¼ÓÔØ±¾µØÊé¿â
+	 * åŠ è½½æœ¬åœ°ä¹¦åº“
 	 */
 	public void loadBookdata() {
-		String colname[] = { "path" };// Êı¾İ¿â×Ö¶ÎÖ¸¶¨·µ»ØĞĞ
+		String colname[] = { "path" };// æ•°æ®åº“å­—æ®µæŒ‡å®šè¿”å›è¡Œ
 		SQLiteDatabase database = bookdb.getReadableDatabase();
 		Cursor cur = database.query(Const.DB_TNAME, colname, null, null, null,
 				null, null);
@@ -350,7 +372,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		}
 		database.close();
 		cur.close();
-		if (bookItem == null)// Çå¿Õ²Ù×÷
+		if (bookItem == null)// æ¸…ç©ºæ“ä½œ
 			bookItem = new ArrayList<HashMap<String, Object>>();
 		bookItem.clear();
 		Map<String, String[]> maps = new HashMap<String, String[]>();
@@ -358,11 +380,11 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			File file = new File(arraylist.get(i));
 			String name = file.getName().substring(0,
 					file.getName().length() - 4);
-			if (name.length() > 20) {
-				name = name.substring(0, 8) + "...";
-			}
+//			if (name.length() > 20) {
+//				name = name.substring(0, 8) + "...";
+//			}
 			map = new HashMap<String, Object>();
-			map.put("BookName", name != null ? name : "Î´Öª");
+			map.put("BookName", name != null ? name : "æœªçŸ¥");
 			map.put("path", file.getPath());
 			map.put("com", 0 + file.getName());
 			bookItem.add(map);
@@ -372,7 +394,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	/**
-	 * Êé±¾ÉèÅäÆ÷
+	 * ä¹¦æœ¬è®¾é…å™¨
 	 */
 	class BookAdapter extends BaseAdapter {
 		@Override
@@ -389,7 +411,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		public long getItemId(int arg0) {
 			return arg0;
 		}
-
 		@Override
 		public View getView(int position, View contentView, ViewGroup arg2) {
 			contentView = View.inflate(MyApplication.context,
@@ -400,18 +421,114 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			return contentView;
 		}
 	}
-  /**
-   * Í·ÏñDialog
-   */
-	public void showUerImage(){
-		AlertDialog.Builder builder=new Builder(this);
-		View view=View.inflate(this, R.layout.dialog_showuser, null);
-		builder.setView(view);
-		userDiag=builder.show();
+
+	/**
+	 * å¤´åƒDialog
+	 */
+	public void showUerImage() {
+		ImageDiag = new Dialog(this, R.style.dialog);
+		View view = View.inflate(this, R.layout.dialog_showuser, null);
+		Button markbutton = (Button) view.findViewById(R.id.mak_image);
+		Button gabutton = (Button) view.findViewById(R.id.ga_image);
+		Button cancelbutton = (Button) view.findViewById(R.id.cancel_button);
+		markbutton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+				// åˆ¤æ–­å­˜å‚¨å¡æ˜¯å¦å¯ä»¥ç”¨ï¼Œå¯ç”¨è¿›è¡Œå­˜å‚¨
+				if (hasSdcard()) {
+					intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri
+							.fromFile(new File(Environment
+									.getExternalStorageDirectory(),
+									PHOTO_FILE_NAME)));
+				}
+				startActivityForResult(intent, Const.PHOTO_REQUEST_CAMERA);
+			}
+		});
+
+		gabutton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ImageDiag.dismiss();
+				Intent intent = new Intent(Intent.ACTION_PICK);
+				intent.setType("image/*");
+				startActivityForResult(intent, Const.PHOTO_REQUEST_GALLERY);
+			}
+		});
+		cancelbutton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ImageDiag.dismiss();
+			}
+		});
+		ImageDiag.setContentView(view);
+		ImageDiag.setCanceledOnTouchOutside(false);
+		ImageDiag.show();
 	}
+
+	/**
+	 * å›è°ƒæ–¹æ³•
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (hasSdcard()) {
+			tempFile = new File(Environment.getExternalStorageDirectory()
+					.getPath() + "/onlyreading");
+			if (!tempFile.exists())
+				tempFile.mkdir();
+		}
+		if (requestCode == Const.PHOTO_REQUEST_GALLERY) {
+			if (data != null) {
+				Uri uri = data.getData();
+				crop(uri);
+			}
+		} else if (requestCode == Const.PHOTO_REQUEST_CAMERA) {
+			crop(Uri.fromFile(tempFile));
+
+		} else if (requestCode == Const.PHOTO_REQUEST_CUT) {
+			try {
+				bitmap = data.getParcelableExtra("data");
+				userImage.setImageBitmap(bitmap);
+				Bitmap bit = CompressBitmapUtils.compBitmap(bitmap);
+				title_Image.setImageBitmap(bit);// å‹ç¼©å¤„ç†
+				ImageHttpUtils.uploadMethod(tempFile, bitmap, this, email);
+				ImageDiag.dismiss();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	/**
+	 * å›¾åƒå‰ªåˆ‡
+	 */
+	private void crop(Uri uri) {
+		// è£å‰ªå›¾ç‰‡æ„å›¾
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		intent.putExtra("crop", "true");
+		// è£å‰ªæ¡†çš„æ¯”ä¾‹ï¼Œ1ï¼š1
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+		// è£å‰ªåè¾“å‡ºå›¾ç‰‡çš„å°ºå¯¸å¤§å°
+		intent.putExtra("outputX", 250);
+		intent.putExtra("outputY", 250);
+		// å›¾ç‰‡æ ¼å¼
+		intent.putExtra("outputFormat", "JPEG");
+		intent.putExtra("noFaceDetection", false);// å–æ¶ˆäººè„¸è¯†åˆ«
+		intent.putExtra("return-data", true);// true:ä¸è¿”å›uriï¼Œfalseï¼šè¿”å›uri
+		startActivityForResult(intent, Const.PHOTO_REQUEST_CUT);
+	}
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
+		loadBookdata();
 		sp = getSharedPreferences("history", MODE_PRIVATE);
 		String flag = sp.getString("flag", null);
 		if (flag != null) {
@@ -421,7 +538,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	/**
-	 * ¼àÌı»ØÍË¼ü
+	 * ç›‘å¬å›é€€é”®
 	 */
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -430,5 +547,17 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	/**
+	 * éªŒè¯SDå¡æ˜¯å¦å­˜åœ¨
+	 */
+	private boolean hasSdcard() {
+		if (Environment.getExternalStorageState().equals(
+				Environment.MEDIA_MOUNTED)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="45.0dip"
     android:background="@drawable/bg_title_bar"
+    android:orientation="horizontal"
     android:gravity="center_vertical" >
     <cn.hncj.or.ui.CircleImageView
         android:id="@+id/title_bar_menu_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_marginRight="3.0dip"
         android:layout_marginTop="3.0dip"
         android:gravity="center"
@@ -37,5 +37,4 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/serch_seletor"
         android:onClick="query" />
-
-</RelativeLayout>
+</LinearLayout>

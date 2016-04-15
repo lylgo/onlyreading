@@ -1,13 +1,343 @@
 package cn.hncj.or.activity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import zrc.widget.SimpleFooter;
+import zrc.widget.SimpleHeader;
+import zrc.widget.ZrcListView;
+import zrc.widget.ZrcListView.OnStartListener;
+import android.annotation.SuppressLint;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+import cn.hncj.or.config.Const;
+import cn.hncj.or.db.Book;
+import cn.hncj.or.http.DownBookHttpUtils;
+import cn.hncj.or.http.HttptestUtils;
+import cn.hncj.or.utils.JsonUtils;
+
 import com.hncj.activity.R;
+
+@SuppressLint("ViewHolder")
 public class BookstoreActivity extends BaseActivity {
+	private ViewPager viewPager;// 页卡内容
+	private ImageView imageView;// 动画图片
+	private TextView textView1, textView2;
+	private List<View> views;// Tab页面列表
+	private int offset = 0;// 动画图片偏移量
+	private int currIndex = 0;// 当前页卡编号
+	private int bmpW;// 动画图片宽度
+	private View view1, view2;// 各个页卡
+	private ZrcListView listone, listtwo;
+	private Handler handler;
+	private MyAdapter adapter;
+	private List<Book> books = new ArrayList<Book>();;
+	private int cont = 2;// 加载页数
+	private String Tonumberpage;// 总页数
+	private List<Book> rebook;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bookstore);
+		new myastybooklist().execute(String.valueOf(1));
+		InitImageView();
+		InitTextView();
+		InitViewPager();
+		listone = (ZrcListView) view1.findViewById(R.id.zListone);
+		listtwo = (ZrcListView) view2.findViewById(R.id.zListtwo);
+		handler = new Handler();
+		// 设置下拉刷新的样式（可选，但如果没有Header则无法下拉刷新）
+		SimpleHeader header = new SimpleHeader(this);
+		header.setTextColor(0xff0066aa);
+		header.setCircleColor(0xff33bbee);
+		listone.setHeadable(header);
+		listtwo.setHeadable(header);
+		// 设置加载更多的样式（可选）
+		SimpleFooter footer = new SimpleFooter(this);
+		footer.setCircleColor(0xff33bbee);
+		listone.setFootable(footer);
+		listtwo.setFootable(footer);
+		// 设置列表项出现动画（可选）
+		listone.setItemAnimForTopIn(R.anim.topitem_in);
+		listone.setItemAnimForBottomIn(R.anim.bottomitem_in);
+		listtwo.setItemAnimForTopIn(R.anim.topitem_in);
+		listtwo.setItemAnimForBottomIn(R.anim.bottomitem_in);
+		// 下拉刷新事件回调（可选）
+		// listone.setOnRefreshStartListener(new OnStartListener() {
+		// @Override
+		// public void onStart() {
+		// new myastybooklist().execute(String.valueOf(1));
+		// refresh();
+		// }
+		// });
+		// // 加载更多事件回调（可选）
+		// listone.setOnLoadMoreStartListener(new OnStartListener() {
+		// @Override
+		// public void onStart() {
+		// new myastybooklist().execute(String.valueOf(cont));
+		// loadMore();
+		// }
+		// });
+		adapter = new MyAdapter();
+		listone.setAdapter(adapter);
+	}
+
+	private void refresh() {
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				if (cont <= Integer.valueOf(Tonumberpage)) {
+					// cont++;
+					// adapter.notifyDataSetChanged();
+					// listone.setRefreshSuccess("加载成功"); // 通知加载成功
+					// //listone.startLoadMore();
+				} else {
+					listone.stopLoadMore();
+					listone.setRefreshFail("加载失败");
+				}
+			}
+		}, 2 * 1000);
+	}
+
+	private void loadMore() {
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				cont++;
+				Log.i("BOOK", cont + "");
+				if (cont <= Integer.valueOf(Tonumberpage)) {
+					adapter.notifyDataSetChanged();
+					listone.setLoadMoreSuccess();
+				} else {
+					listone.stopLoadMore();
+				}
+			}
+		}, 2 * 1000);
+	}
+
+	private class MyAdapter extends BaseAdapter {
+		@Override
+		public int getCount() {
+			return books == null ? 0 : books.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return books.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View view;
+			final ViewHoder viewhoder;
+			if (convertView == null) {
+				view = getLayoutInflater().inflate(R.layout.showdownbook, null);
+				viewhoder = new ViewHoder();
+				viewhoder.nametext = (TextView) view
+						.findViewById(R.id.bookname);
+				viewhoder.typetext = (TextView) view
+						.findViewById(R.id.typebook);
+				viewhoder.destext = (TextView) view.findViewById(R.id.desbook);
+				viewhoder.downbutton = (Button) view
+						.findViewById(R.id.down_button);
+				viewhoder.progress = (ProgressBar) view
+						.findViewById(R.id.downbar);
+				view.setTag(viewhoder);
+			} else {
+				view = convertView;
+				viewhoder = (ViewHoder) view.getTag();
+			}
+			viewhoder.nametext.setText(books.get(position).getBookName());
+			viewhoder.typetext.setText(books.get(position).getBookType());
+			viewhoder.destext.setText(books.get(position).getDescribe());
+			final int progre = position;
+			viewhoder.downbutton.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					DownBookHttpUtils.downloadbook(viewhoder.progress,
+							BookstoreActivity.this,String.valueOf(books.get(progre).getId()) ,
+							viewhoder.downbutton,books.get(progre).getBookName());
+				}
+			});
+			return view;
+		}
+
+		class ViewHoder {
+			TextView nametext, typetext, destext;
+			Button downbutton;
+			ProgressBar progress;
+		}
+
+	}
+
+	class myastybooklist extends AsyncTask<String, Void, String> {
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("num", params[0]);
+			String result = HttptestUtils.submitPostData(map, "UTF-8",
+					Const.GETBOOKLISTPATH);
+			if (cont == 2) {
+				Tonumberpage = HttptestUtils.submitPostData(null, "UTF-8",
+						Const.PAGENUMBERPATH);
+			}
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			rebook = JsonUtils.JsonTools(result);
+			Log.i("BOOK", Tonumberpage);
+			for (Book book : rebook) {
+				books.add(book);
+			}
+			adapter = new MyAdapter();
+			rebook.clear();
+			listone.setAdapter(adapter);
+		}
+	}
+
+	/**
+	 * 一下设置ViewPage
+	 */
+	private void InitViewPager() {
+		viewPager = (ViewPager) findViewById(R.id.vPager);
+		views = new ArrayList<View>();
+		LayoutInflater inflater = getLayoutInflater();
+		view1 = inflater.inflate(R.layout.viewpageone, null);
+		view2 = inflater.inflate(R.layout.viewpagetwo, null);
+		views.add(view1);
+		views.add(view2);
+		viewPager.setAdapter(new MyViewPagerAdapter(views));
+		viewPager.setCurrentItem(0);
+		viewPager.setOnPageChangeListener(new MyOnPageChangeListener());
+	}
+
+	/**
+	 * 初始化头标
+	 */
+
+	private void InitTextView() {
+		textView1 = (TextView) findViewById(R.id.text1);
+		textView2 = (TextView) findViewById(R.id.text2);
+
+		textView1.setOnClickListener(new MyOnClickListener(0));
+		textView2.setOnClickListener(new MyOnClickListener(1));
+	}
+
+	/**
+	 * 2 * 初始化动画 3
+	 */
+
+	private void InitImageView() {
+		imageView = (ImageView) findViewById(R.id.cursor);
+		bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.bar)
+				.getWidth();// 获取图片宽度
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		int screenW = dm.widthPixels;// 获取分辨率宽度
+		offset = (screenW / 2 - bmpW) / 2;// 计算偏移量
+		Matrix matrix = new Matrix();
+		matrix.postTranslate(offset, 0);
+		imageView.setImageMatrix(matrix);// 设置动画初始位置
+	}
+
+	/**
+	 * 
+	 * 头标点击监听 3
+	 */
+	private class MyOnClickListener implements OnClickListener {
+		private int index = 0;
+
+		public MyOnClickListener(int i) {
+			index = i;
+		}
+
+		public void onClick(View v) {
+			viewPager.setCurrentItem(index);
+		}
+	}
+
+	public class MyViewPagerAdapter extends PagerAdapter {
+		private List<View> mListViews;
+
+		public MyViewPagerAdapter(List<View> mListViews) {
+			this.mListViews = mListViews;
+		}
+
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+			container.removeView(mListViews.get(position));
+		}
+
+		@Override
+		public Object instantiateItem(ViewGroup container, int position) {
+			container.addView(mListViews.get(position), 0);
+			return mListViews.get(position);
+		}
+
+		@Override
+		public int getCount() {
+			return mListViews.size();
+		}
+
+		@Override
+		public boolean isViewFromObject(View arg0, Object arg1) {
+			return arg0 == arg1;
+		}
+	}
+
+	public class MyOnPageChangeListener implements OnPageChangeListener {
+		int one = offset * 2 + bmpW;// 页卡1 -> 页卡2 偏移量
+		int two = one * 2;// 页卡1 -> 页卡3 偏移量
+
+		public void onPageScrollStateChanged(int arg0) {
+		}
+
+		public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+		}
+
+		public void onPageSelected(int arg0) {
+			Animation animation = new TranslateAnimation(one * currIndex, one
+					* arg0, 0, 0);
+			currIndex = arg0;
+			animation.setFillAfter(true);// True:图片停在动画结束位置
+			animation.setDuration(300);
+			imageView.startAnimation(animation);
+			Toast.makeText(BookstoreActivity.this,
+					"您选择了" + viewPager.getCurrentItem() + "页卡",
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 }

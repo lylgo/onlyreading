@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import cn.hncj.or.http.HttpUtils;
+import cn.hncj.or.config.Const;
+import cn.hncj.or.function.CheckNetwork;
+import cn.hncj.or.http.HttptestUtils;
 
 import com.hncj.activity.R;
 
@@ -27,7 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class RegisterActivity extends BaseActivity {
-	private ImageButton backbutton;
+	private TextView backbutton;
 	private EditText ninametext, passtext, repasstext, emailtext;
 	private Button rebutton;
 	private String name;
@@ -42,7 +44,7 @@ public class RegisterActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
-		backbutton = (ImageButton) findViewById(R.id.back_home);
+		backbutton = (TextView) findViewById(R.id.back_home);
 		ninametext = (EditText) findViewById(R.id.niname);
 		passtext = (EditText) findViewById(R.id.pass);
 		repasstext = (EditText) findViewById(R.id.repass);
@@ -53,22 +55,29 @@ public class RegisterActivity extends BaseActivity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(RegisterActivity.this,
-						MainActivity.class);
+						LoginActivity.class);
 				startActivity(intent);
+				overridePendingTransition(R.anim.tran_pre_in, R.anim.tran_pre_out);
+				finish();
 			}
 		});
 		rebutton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				boolean flag = check();
-				if (flag) {
-					map = new HashMap<String, String>();
-					map.put("name", name);
-					map.put("pass", pass);
-					map.put("email", email);
-					new regituser().execute(map);
+				if(CheckNetwork.isNetworkAvailable(RegisterActivity.this)){
+					boolean flag = check();
+					if (flag) {
+						map = new HashMap<String, String>();
+						map.put("name", name);
+						map.put("pass", pass);
+						map.put("email", email);
+						new regituser().execute(map);
+					}
+				}else{
+					Toast.makeText(RegisterActivity.this,"网络不可用，请检查网络设置",Toast.LENGTH_SHORT).show();
 				}
+				
 			}
 		});
 	}
@@ -100,7 +109,6 @@ public class RegisterActivity extends BaseActivity {
 		}
 		return false;
 	}
-
 	public void showdig() {
 		dialog = new ProgressDialog(this);
 		// dialog.setCancelable(false);
@@ -108,7 +116,7 @@ public class RegisterActivity extends BaseActivity {
 		dialog.setCanceledOnTouchOutside(false);
 		dialog.show();
 	}
-
+	
 	// **
 	class regituser extends AsyncTask<Object, Void, String> {
 		@Override
@@ -121,10 +129,9 @@ public class RegisterActivity extends BaseActivity {
 			// TODO Auto-generated method stub
 			@SuppressWarnings("unchecked")
 			Map<String, String> map = (Map<String, String>) params[0];
-			String result = HttpUtils.submitPostData(map, "UTF-8");
+			String result = HttptestUtils.submitPostData(map, "UTF-8",Const.REGiSTERPath);
 			return result;
 		}
-
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
@@ -132,6 +139,7 @@ public class RegisterActivity extends BaseActivity {
 			if (result.equals("SU")) {
 				sp=getSharedPreferences("land",MODE_PRIVATE );
 				Editor editor=sp.edit();
+				editor.putString("email", email);
 				editor.putString("name", name);
 				SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 				String date = sDateFormat.format(new java.util.Date());
