@@ -3,7 +3,6 @@ package cn.hncj.or.activity;
 import java.io.IOException;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -29,6 +28,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.hncj.or.db.BookDb;
 import cn.hncj.or.db.BookmarkDb;
 import cn.hncj.or.function.PageWidget;
 import cn.hncj.or.read.BookPageFactory;
@@ -36,7 +36,7 @@ import cn.hncj.or.read.MarkDialog;
 
 import com.hncj.activity.R;
 
-@SuppressLint("WrongCall")
+@SuppressLint({ "WrongCall", "ClickableViewAccessibility" })
 //implements OnClickListener
 public class ReadBookActivity extends BaseActivity implements
 		OnSeekBarChangeListener {
@@ -58,9 +58,9 @@ public class ReadBookActivity extends BaseActivity implements
 	private WindowManager.LayoutParams windlp;
 	private TextView markEdit4;
 	private BookmarkDb bookDb;
+	private BookDb      openBook;  
 	private Bitmap mCurPageBitmap, mNextPageBitmap;
 	private MarkDialog mDialog = null;
-	private Context mContext = null;
 	private PageWidget mPageWidget;
 	private PopupWindow mPopupWindow, mToolpop, mToolpop1, mToolpop2,
 			mToolpop3, mToolpop4;
@@ -71,7 +71,7 @@ public class ReadBookActivity extends BaseActivity implements
 	int screenWidth;
 	private SeekBar seekBar1, seekBar2, seekBar4;
 	private Boolean show = false;// popwindow是否显示
-	private int size = 30; // 字体大小
+	private int size = 27; // 字体大小
 	private SharedPreferences sp;
 	int defaultSize = 0;
 	// 实例化Handler
@@ -107,7 +107,7 @@ public class ReadBookActivity extends BaseActivity implements
 		popDismiss();
 	}
 
-	/**
+	/**5
 	 * 读取配置文件中亮度值
 	 */
 	private void getLight() {
@@ -235,6 +235,7 @@ public class ReadBookActivity extends BaseActivity implements
 //		}
 //	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -242,7 +243,6 @@ public class ReadBookActivity extends BaseActivity implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		mContext = getBaseContext();
 		WindowManager manage = getWindowManager();
 		Display display = manage.getDefaultDisplay();
 		screenWidth = display.getWidth();
@@ -253,24 +253,22 @@ public class ReadBookActivity extends BaseActivity implements
 				Bitmap.Config.ARGB_8888);
 		mNextPageBitmap = Bitmap.createBitmap(screenWidth, screenHeight,
 				Bitmap.Config.ARGB_8888);
-		mCurPageCanvas = new Canvas(mCurPageBitmap);
+		mCurPageCanvas = new Canvas(mCurPageBitmap);//设置画布
 		mNextPageCanvas = new Canvas(mNextPageBitmap);
-		mPageWidget = new PageWidget(this, screenWidth, screenHeight);// 生成页面
+		mPageWidget = new PageWidget(this, screenWidth, screenHeight);// 生成页面view
 		
 		setContentView(R.layout.activity_readbook);
 		RelativeLayout readlayout = (RelativeLayout) findViewById(R.id.readlayout);
-		readlayout.addView(mPageWidget);
+		readlayout.addView(mPageWidget);//加载viewd到当前的布局
 		Intent intent = getIntent();
 		bookPath = intent.getStringExtra("path");
-		//ccc = intent.getStringExtra("ccc");
-        // * 控制页面画出贝塞尔曲线,添加画布,设置页面
 		mPageWidget.setBitmaps(mCurPageBitmap, mCurPageBitmap);
-		
 		mPageWidget.setOnTouchListener(new OnTouchListener() {
+			@SuppressLint("ClickableViewAccessibility")
 			@Override
 			public boolean onTouch(View v, MotionEvent e) {
 				boolean ret = false;
-				if (v == mPageWidget) {
+				if (v == mPageWidget) {//当前触摸的是该view对象
 					if (!show) { //popwind没有显示
 						if (e.getAction() == MotionEvent.ACTION_DOWN) {
 							mPageWidget.abortAnimation();
@@ -285,7 +283,7 @@ public class ReadBookActivity extends BaseActivity implements
 									Log.e(TAG, "onTouch->prePage error", e1);
 								}
 								if (pagefactory.isfirstPage()) {
-									Toast.makeText(mContext, "当前是第一页",
+									Toast.makeText(ReadBookActivity.this, "当前是第一页",
 											Toast.LENGTH_SHORT).show();
 									return false;
 								}
@@ -299,7 +297,7 @@ public class ReadBookActivity extends BaseActivity implements
 									Log.e(TAG, "onTouch->nextPage error", e1);
 								}
 								if (pagefactory.islastPage()) {
-									Toast.makeText(mContext, "已经是最后一页了",
+									Toast.makeText(ReadBookActivity.this, "已经是最后一页了",
 											Toast.LENGTH_SHORT).show();
 									return false;
 								}
@@ -317,7 +315,7 @@ public class ReadBookActivity extends BaseActivity implements
 			}
 		});
 
-	//	setPop();
+		setPop();
 
 		// 提取记录在sharedpreferences的各种状态
 		sp = getSharedPreferences("config", MODE_PRIVATE);
@@ -329,27 +327,21 @@ public class ReadBookActivity extends BaseActivity implements
 		windlp = getWindow().getAttributes();
 		windlp.screenBrightness = light / 10.0f < 0.01f ? 0.01f : light / 10.0f;
 		getWindow().setAttributes(windlp);
-		pagefactory = new BookPageFactory(screenWidth, screenHeight);// 书工厂
+		pagefactory = new BookPageFactory(screenWidth, screenHeight);// 书工厂,加载该书到内存
 		if (isNight) {
 			pagefactory.setBgBitmap(BitmapFactory.decodeResource(
-					this.getResources(), R.drawable.main_bg));
-			pagefactory.setM_textColor(Color.rgb(128, 128, 128));
+					this.getResources(), R.drawable.night_book_bg));
+			pagefactory.setM_textColor(Color.rgb(255, 255 ,240));
 		} else {
 			pagefactory.setBgBitmap(BitmapFactory.decodeResource(
 					this.getResources(), R.drawable.book_image));
-			pagefactory.setM_textColor(Color.rgb(28, 28, 28));//设置字体
+			pagefactory.setM_textColor(Color.rgb(54,54, 54));//设置字体
 		}
 		begin = sp.getInt(bookPath + "begin", 0);
 		try {
-			pagefactory.openbook("mnt/sdcard/" + bookPath, begin);
-//			
-//			Intent intent3=getIntent();
-//			txtName1=intent3.getStringExtra("txtName2");
-//			String strFilePath=Finaltxt.TXTPA+txtName;
-//			pagefactory.opennerbook(strFilePath);
-//			 pagefactory.openbook(bookPath, begin);// 从指定位置打开书籍，默认从开始打开
-			pagefactory.setM_fontSize(size);//设置字体
-			pagefactory.onDraw(mCurPageCanvas);
+			pagefactory.openbook(bookPath, begin);
+			pagefactory.setM_fontSize(30);//设置字体
+			pagefactory.onDraw(mCurPageCanvas);//在工厂中对画布进行编辑
 		} catch (Exception e1) {
 			Toast.makeText(this, "打开电子书失败", Toast.LENGTH_SHORT).show();
 		}
@@ -535,7 +527,7 @@ public class ReadBookActivity extends BaseActivity implements
 //	/**
 //	 * 初始化所有POPUPWINDOW
 //	 */
-//	private void setPop() {
+	private void setPop() {
 //		popupwindwow = this.getLayoutInflater().inflate(R.layout.bookpop, null);
 //		toolpop = this.getLayoutInflater().inflate(R.layout.toolpop, null);
 //		mPopupWindow = new PopupWindow(popupwindwow, LayoutParams.FILL_PARENT,
@@ -554,7 +546,7 @@ public class ReadBookActivity extends BaseActivity implements
 //		toolpop4 = this.getLayoutInflater().inflate(R.layout.tool44, null);
 //		mToolpop4 = new PopupWindow(toolpop4, LayoutParams.FILL_PARENT,
 //				LayoutParams.WRAP_CONTENT);
-//	}
+	}
 
 	/**
 	 * 记录配置文件中字体大小
@@ -738,11 +730,9 @@ public class ReadBookActivity extends BaseActivity implements
 			begin = pagefactory.getM_mbBufBegin();// 获取当前阅读位置
 			word = pagefactory.getFirstLineText();// 获取当前阅读位置的首行文字
 		} catch (IOException e1) {
-			Log.e(TAG, "postInvalidateUI->IOException error", e1);
+			
 		}
-
 		pagefactory.onDraw(mNextPageCanvas);
-
 		mPageWidget.setBitmaps(mCurPageBitmap, mNextPageBitmap);
 		mPageWidget.postInvalidate();
 	}

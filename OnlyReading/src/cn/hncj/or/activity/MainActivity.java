@@ -20,7 +20,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,7 +61,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	private BookDb bookdb;// 创建数据库
 	private BookAdapter bookadapter;
 	private SharedPreferences sp;
-	private Dialog builder, userDiag, ImageDiag;
+	private Dialog builder, ImageDiag;
 	private TextView debutton, nickname;
 	private CircleImageView userImage, title_Image;
 	private RadioButton rabutton;
@@ -73,8 +72,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	private static String[] names = { "收藏", "下载", "账户", "设置" };
 	private static int[] ids = { R.drawable.item1, R.drawable.item2,
 			R.drawable.item3, R.drawable.item4 };
-	private static final String PHOTO_FILE_NAME = "temp_photo.jpg";
-
 	@SuppressLint("CutPasteId")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +114,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-
 						showdeletDialog(local);
 					}
 				});
@@ -143,15 +139,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 					values.put("now", 1);// key为字段名，value为值
 					db.update(Const.DB_TNAME, values, "path=?",
 							new String[] { path });// 修改状态为已读
-					db.close();
 					Intent intent = new Intent();
 					intent.setClass(MainActivity.this, ReadBookActivity.class);
-					Log.i("LL", bookItem.get(position).get("BookName")
-							.toString()
-							+ ".txt");
-					intent.putExtra("path",
-							bookItem.get(position).get("BookName").toString()
-									+ ".txt");
+					intent.putExtra("path", path);
 					startActivity(intent);
 				}
 			}
@@ -354,6 +344,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		SQLiteDatabase database = bookdb.getWritableDatabase();
 		database.delete(Const.DB_TNAME, "path=?", dewhere);
 		database.close();
+		bookadapter.notifyDataSetChanged();
 	}
 
 	/**
@@ -380,9 +371,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			File file = new File(arraylist.get(i));
 			String name = file.getName().substring(0,
 					file.getName().length() - 4);
-//			if (name.length() > 20) {
-//				name = name.substring(0, 8) + "...";
-//			}
+			// if (name.length() > 20) {
+			// name = name.substring(0, 8) + "...";
+			// }
 			map = new HashMap<String, Object>();
 			map.put("BookName", name != null ? name : "未知");
 			map.put("path", file.getPath());
@@ -411,6 +402,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		public long getItemId(int arg0) {
 			return arg0;
 		}
+
 		@Override
 		public View getView(int position, View contentView, ViewGroup arg2) {
 			contentView = View.inflate(MyApplication.context,
@@ -435,18 +427,12 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				ImageDiag.dismiss();
 				Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-				// 判断存储卡是否可以用，可用进行存储
-				if (hasSdcard()) {
-					intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri
-							.fromFile(new File(Environment
-									.getExternalStorageDirectory(),
-									PHOTO_FILE_NAME)));
-				}
 				startActivityForResult(intent, Const.PHOTO_REQUEST_CAMERA);
 			}
 		});
-
+		
 		gabutton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -486,8 +472,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				crop(uri);
 			}
 		} else if (requestCode == Const.PHOTO_REQUEST_CAMERA) {
-			crop(Uri.fromFile(tempFile));
-
+			if(data!=null){
+				Uri uri = data.getData();
+				crop(uri);
+			}
 		} else if (requestCode == Const.PHOTO_REQUEST_CUT) {
 			try {
 				bitmap = data.getParcelableExtra("data");

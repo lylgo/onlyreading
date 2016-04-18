@@ -3,16 +3,12 @@
     package="com.hncj.activity"
     android:versionCode="1"
     android:versionName="1.0" >
-
-    <uses-sdk
-        android:minSdkVersion="17"
-        android:targetSdkVersion="17" />
-
+    <uses-sdk android:minSdkVersion="8" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-   <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
         android:name="cn.hncj.or.utils.MyApplication"
         android:allowBackup="true"
@@ -36,7 +32,7 @@
         <activity android:name="cn.hncj.or.activity.BookstoreActivity" />
         <activity android:name="cn.hncj.or.activity.ReadBookActivity" />
         <activity android:name="cn.hncj.or.activity.RegisterActivity" />
-        <activity android:name="cn.hncj.or.activity.LoginActivity"/>
+        <activity android:name="cn.hncj.or.activity.LoginActivity" />
     </application>
 
 </manifest>

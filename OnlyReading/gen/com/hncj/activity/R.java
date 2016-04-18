@@ -18,11 +18,6 @@ public final class R {
         public static final int tran_pre_in=0x7f040006;
         public static final int tran_pre_out=0x7f040007;
     }
-    public static final class array {
-        public static final int bookauthor=0x7f050002;
-        public static final int bookid=0x7f050000;
-        public static final int bookname=0x7f050001;
-    }
     public static final class attr {
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
@@ -45,15 +40,16 @@ containing a value of this type.
         public static final int border_width=0x7f010000;
     }
     public static final class color {
-        public static final int back=0x7f060007;
-        public static final int color_0=0x7f060000;
-        public static final int color_1=0x7f060001;
-        public static final int color_2=0x7f060002;
-        public static final int color_3=0x7f060003;
-        public static final int color_4=0x7f060004;
-        public static final int dark=0x7f060005;
-        public static final int light=0x7f060006;
-        public static final int tab_selector_tv_color=0x7f060008;
+        public static final int back=0x7f050007;
+        public static final int color_0=0x7f050000;
+        public static final int color_1=0x7f050001;
+        public static final int color_2=0x7f050002;
+        public static final int color_3=0x7f050003;
+        public static final int color_4=0x7f050004;
+        public static final int dark=0x7f050005;
+        public static final int light=0x7f050006;
+        public static final int tab_selector_tv_color=0x7f050008;
+        public static final int wangluorbtnbg=0x7f050009;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -63,8 +59,8 @@ containing a value of this type.
          would include 7" and 10" devices in landscape (~960dp and ~1280dp respectively).
     
          */
-        public static final int activity_horizontal_margin=0x7f070000;
-        public static final int activity_vertical_margin=0x7f070001;
+        public static final int activity_horizontal_margin=0x7f060000;
+        public static final int activity_vertical_margin=0x7f060001;
     }
     public static final class drawable {
         public static final int add_book=0x7f020000;
@@ -72,155 +68,166 @@ containing a value of this type.
         public static final int audio=0x7f020002;
         public static final int back=0x7f020003;
         public static final int bar=0x7f020004;
-        public static final int bg_sliding_menu=0x7f020005;
-        public static final int bg_title_bar=0x7f020006;
-        public static final int bitmap_book_read_chapterlist_repeat=0x7f020007;
-        public static final int bitmap_page_category_bg=0x7f020008;
-        public static final int book_default_cover=0x7f020009;
-        public static final int book_image=0x7f02000a;
-        public static final int book_nightbg=0x7f02000b;
-        public static final int bookbox_hori_bottom=0x7f02000c;
-        public static final int bookbox_top=0x7f02000d;
-        public static final int brown_back=0x7f02000e;
-        public static final int brown_shelf_background=0x7f02000f;
-        public static final int brown_shelf_layer=0x7f020010;
-        public static final int btn_reg=0x7f020011;
-        public static final int cover=0x7f020012;
-        public static final int delete_unsel=0x7f020013;
-        public static final int dialog_cancel=0x7f020014;
-        public static final int dialog_center=0x7f020015;
-        public static final int diog_bg=0x7f020016;
-        public static final int diog_button=0x7f020017;
-        public static final int down=0x7f020018;
-        public static final int download_waitting_0=0x7f020019;
-        public static final int download_waitting_1=0x7f02001a;
-        public static final int download_waitting_2=0x7f02001b;
-        public static final int download_waitting_3=0x7f02001c;
-        public static final int download_waitting_4=0x7f02001d;
-        public static final int download_waitting_5=0x7f02001e;
-        public static final int download_waitting_6=0x7f02001f;
-        public static final int download_waitting_7=0x7f020020;
-        public static final int download_waitting_8=0x7f020021;
-        public static final int file_item_title_bg=0x7f020022;
-        public static final int file_return_sel=0x7f020023;
-        public static final int folder=0x7f020024;
-        public static final int home_pg=0x7f020025;
-        public static final int ic_category_mark=0x7f020026;
-        public static final int ic_item_normal_bg=0x7f020027;
-        public static final int ic_item_selected_bg=0x7f020028;
-        public static final int ic_launcher=0x7f020029;
-        public static final int ic_shelf_category_divider=0x7f02002a;
-        public static final int ic_top_bar_category=0x7f02002b;
-        public static final int ic_top_divider=0x7f02002c;
-        public static final int image=0x7f02002d;
-        public static final int item1=0x7f02002e;
-        public static final int item2=0x7f02002f;
-        public static final int item3=0x7f020030;
-        public static final int item4=0x7f020031;
-        public static final int itemback=0x7f020032;
-        public static final int left_back=0x7f020033;
-        public static final int listviewx=0x7f020034;
-        public static final int main_bg=0x7f020035;
-        public static final int markline=0x7f020036;
-        public static final int menu_search=0x7f020037;
-        public static final int menu_search_nor=0x7f020038;
-        public static final int mymarkback=0x7f020039;
-        public static final int mymarkdown=0x7f02003a;
-        public static final int mymarktitle=0x7f02003b;
-        public static final int myprogressdialog=0x7f02003c;
-        public static final int ok_button=0x7f02003d;
-        public static final int othersother=0x7f02003e;
-        public static final int reader_bookmarks=0x7f02003f;
-        public static final int reader_delete_bookmark=0x7f020040;
-        public static final int reg_button=0x7f020041;
-        public static final int right_more_unsel=0x7f020042;
-        public static final int rootblock_default_bg=0x7f020043;
-        public static final int selector_category_item=0x7f020044;
-        public static final int serch_seletor=0x7f020045;
-        public static final int tab_last=0x7f020046;
-        public static final int tab_last_selected=0x7f020047;
-        public static final int tab_selector_bookcase=0x7f020048;
-        public static final int tab_selector_bookhistory=0x7f020049;
-        public static final int tab_selector_bookstore=0x7f02004a;
-        public static final int tab_selector_checked_bg=0x7f02004b;
-        public static final int tab_shelf=0x7f02004c;
-        public static final int tab_shelf_selected=0x7f02004d;
-        public static final int tab_shop=0x7f02004e;
-        public static final int tab_shop_selected=0x7f02004f;
-        public static final int tital=0x7f020050;
-        public static final int txt=0x7f020051;
-        public static final int upback=0x7f020052;
-        public static final int video=0x7f020053;
-        public static final int web_browser=0x7f020054;
-        public static final int zip_icon=0x7f020055;
+        public static final int bg=0x7f020005;
+        public static final int bg_sliding_menu=0x7f020006;
+        public static final int bg_title_bar=0x7f020007;
+        public static final int bitmap_book_read_chapterlist_repeat=0x7f020008;
+        public static final int bitmap_page_category_bg=0x7f020009;
+        public static final int book_default_cover=0x7f02000a;
+        public static final int book_image=0x7f02000b;
+        public static final int book_nightbg=0x7f02000c;
+        public static final int bookbox_hori_bottom=0x7f02000d;
+        public static final int bookbox_top=0x7f02000e;
+        public static final int brown_back=0x7f02000f;
+        public static final int brown_shelf_background=0x7f020010;
+        public static final int brown_shelf_layer=0x7f020011;
+        public static final int btn_reg=0x7f020012;
+        public static final int cover=0x7f020013;
+        public static final int delete_unsel=0x7f020014;
+        public static final int dialog_cancel=0x7f020015;
+        public static final int dialog_center=0x7f020016;
+        public static final int diog_bg=0x7f020017;
+        public static final int diog_button=0x7f020018;
+        public static final int down=0x7f020019;
+        public static final int down_book=0x7f02001a;
+        public static final int download_waitting_0=0x7f02001b;
+        public static final int download_waitting_1=0x7f02001c;
+        public static final int download_waitting_2=0x7f02001d;
+        public static final int download_waitting_3=0x7f02001e;
+        public static final int download_waitting_4=0x7f02001f;
+        public static final int download_waitting_5=0x7f020020;
+        public static final int download_waitting_6=0x7f020021;
+        public static final int download_waitting_7=0x7f020022;
+        public static final int download_waitting_8=0x7f020023;
+        public static final int file_item_title_bg=0x7f020024;
+        public static final int file_return_sel=0x7f020025;
+        public static final int folder=0x7f020026;
+        public static final int home_pg=0x7f020027;
+        public static final int ic_category_mark=0x7f020028;
+        public static final int ic_item_normal_bg=0x7f020029;
+        public static final int ic_item_selected_bg=0x7f02002a;
+        public static final int ic_launcher=0x7f02002b;
+        public static final int ic_shelf_category_divider=0x7f02002c;
+        public static final int ic_top_bar_category=0x7f02002d;
+        public static final int ic_top_divider=0x7f02002e;
+        public static final int image=0x7f02002f;
+        public static final int item1=0x7f020030;
+        public static final int item2=0x7f020031;
+        public static final int item3=0x7f020032;
+        public static final int item4=0x7f020033;
+        public static final int itemback=0x7f020034;
+        public static final int left_back=0x7f020035;
+        public static final int listviewx=0x7f020036;
+        public static final int loading_01=0x7f020037;
+        public static final int loading_02=0x7f020038;
+        public static final int loading_03=0x7f020039;
+        public static final int loading_04=0x7f02003a;
+        public static final int loading_05=0x7f02003b;
+        public static final int loading_06=0x7f02003c;
+        public static final int markline=0x7f02003d;
+        public static final int menu_search=0x7f02003e;
+        public static final int menu_search_nor=0x7f02003f;
+        public static final int mymarkback=0x7f020040;
+        public static final int mymarkdown=0x7f020041;
+        public static final int mymarktitle=0x7f020042;
+        public static final int myprogressdialog=0x7f020043;
+        public static final int night_book_bg=0x7f020044;
+        public static final int ok_button=0x7f020045;
+        public static final int othersother=0x7f020046;
+        public static final int reader_bookmarks=0x7f020047;
+        public static final int reader_delete_bookmark=0x7f020048;
+        public static final int reg_button=0x7f020049;
+        public static final int right_more_unsel=0x7f02004a;
+        public static final int rootblock_default_bg=0x7f02004b;
+        public static final int selector_category_item=0x7f02004c;
+        public static final int serch_seletor=0x7f02004d;
+        public static final int tab_last=0x7f02004e;
+        public static final int tab_last_selected=0x7f02004f;
+        public static final int tab_selector_bookcase=0x7f020050;
+        public static final int tab_selector_bookhistory=0x7f020051;
+        public static final int tab_selector_bookstore=0x7f020052;
+        public static final int tab_selector_checked_bg=0x7f020053;
+        public static final int tab_shelf=0x7f020054;
+        public static final int tab_shelf_selected=0x7f020055;
+        public static final int tab_shop=0x7f020056;
+        public static final int tab_shop_selected=0x7f020057;
+        public static final int tital=0x7f020058;
+        public static final int txt=0x7f020059;
+        public static final int upback=0x7f02005a;
+        public static final int video=0x7f02005b;
+        public static final int vip_down_book=0x7f02005c;
+        public static final int web_browser=0x7f02005d;
+        public static final int zip_icon=0x7f02005e;
     }
     public static final class id {
-        public static final int action_settings=0x7f0b0041;
-        public static final int add_book=0x7f0b0019;
-        public static final int backImage=0x7f0b0040;
-        public static final int back_home=0x7f0b0006;
-        public static final int book_cheng=0x7f0b0011;
-        public static final int book_gridview=0x7f0b000e;
-        public static final int book_history=0x7f0b0012;
-        public static final int book_image=0x7f0b0034;
-        public static final int book_jia=0x7f0b0010;
-        public static final int book_name=0x7f0b001b;
-        public static final int booklist=0x7f0b0033;
-        public static final int bookname=0x7f0b0035;
-        public static final int btn_leftTop=0x7f0b0031;
-        public static final int cancel_button=0x7f0b0021;
-        public static final int cencel_book=0x7f0b0018;
-        public static final int cencel_del=0x7f0b001d;
-        public static final int cursor=0x7f0b0004;
-        public static final int del_book=0x7f0b001c;
-        public static final int desbook=0x7f0b0037;
-        public static final int down_button=0x7f0b0038;
-        public static final int downbar=0x7f0b003a;
-        public static final int downtext=0x7f0b0039;
-        public static final int email=0x7f0b0016;
-        public static final int flsh=0x7f0b0032;
-        public static final int ga_image=0x7f0b0020;
-        public static final int history=0x7f0b0000;
-        public static final int image=0x7f0b001a;
-        public static final int image_list_childs=0x7f0b003d;
-        public static final int iv_item=0x7f0b002b;
-        public static final int linearLayout1=0x7f0b0001;
-        public static final int login_button=0x7f0b000a;
-        public static final int main_content=0x7f0b000c;
-        public static final int mak_image=0x7f0b001f;
-        public static final int markImage1=0x7f0b0022;
-        public static final int markImage2=0x7f0b0025;
-        public static final int markText1=0x7f0b0023;
-        public static final int markText2=0x7f0b0024;
-        public static final int markid=0x7f0b002d;
-        public static final int menu_grid=0x7f0b0028;
-        public static final int name=0x7f0b0008;
-        public static final int nickname=0x7f0b0027;
-        public static final int niname=0x7f0b0014;
-        public static final int oahprogressbar=0x7f0b002e;
-        public static final int oaprogresstitle=0x7f0b002f;
-        public static final int ok_del=0x7f0b001e;
-        public static final int pass=0x7f0b0009;
-        public static final int querybook=0x7f0b0030;
-        public static final int re_button=0x7f0b0017;
-        public static final int readlayout=0x7f0b0013;
-        public static final int regin=0x7f0b0007;
-        public static final int repass=0x7f0b0015;
-        public static final int rootbg=0x7f0b000d;
-        public static final int slide_menu=0x7f0b000b;
-        public static final int tab_menu=0x7f0b000f;
-        public static final int text1=0x7f0b0002;
-        public static final int text2=0x7f0b0003;
-        public static final int text2_list_childs=0x7f0b003f;
-        public static final int text_list_childs=0x7f0b003e;
-        public static final int title_Image=0x7f0b0026;
-        public static final int title_bar_menu_btn=0x7f0b0029;
-        public static final int title_bar_name=0x7f0b002a;
-        public static final int tv_item=0x7f0b002c;
-        public static final int typebook=0x7f0b0036;
-        public static final int vPager=0x7f0b0005;
-        public static final int zListone=0x7f0b003b;
-        public static final int zListtwo=0x7f0b003c;
+        public static final int action_settings=0x7f0a0043;
+        public static final int add_book=0x7f0a001a;
+        public static final int backImage=0x7f0a0042;
+        public static final int back_home=0x7f0a0006;
+        public static final int book_cheng=0x7f0a0011;
+        public static final int book_gridview=0x7f0a000e;
+        public static final int book_history=0x7f0a0012;
+        public static final int book_image=0x7f0a0035;
+        public static final int book_jia=0x7f0a0010;
+        public static final int book_name=0x7f0a001c;
+        public static final int booklist=0x7f0a0034;
+        public static final int bookname=0x7f0a0036;
+        public static final int bookshow=0x7f0a0014;
+        public static final int btn_leftTop=0x7f0a0032;
+        public static final int cancel_button=0x7f0a0022;
+        public static final int cencel_book=0x7f0a0019;
+        public static final int cencel_del=0x7f0a001e;
+        public static final int collect_button=0x7f0a003e;
+        public static final int cursor=0x7f0a0004;
+        public static final int del_book=0x7f0a001d;
+        public static final int desbook=0x7f0a0038;
+        public static final int down_button=0x7f0a0039;
+        public static final int downbar=0x7f0a003b;
+        public static final int downtext=0x7f0a003a;
+        public static final int email=0x7f0a0017;
+        public static final int flsh=0x7f0a0033;
+        public static final int ga_image=0x7f0a0021;
+        public static final int history=0x7f0a0000;
+        public static final int image=0x7f0a001b;
+        public static final int image_list_childs=0x7f0a003f;
+        public static final int iv_item=0x7f0a002c;
+        public static final int linearLayout1=0x7f0a0001;
+        public static final int login_button=0x7f0a000a;
+        public static final int main_content=0x7f0a000c;
+        public static final int mak_image=0x7f0a0020;
+        public static final int markImage1=0x7f0a0023;
+        public static final int markImage2=0x7f0a0026;
+        public static final int markText1=0x7f0a0024;
+        public static final int markText2=0x7f0a0025;
+        public static final int markid=0x7f0a002f;
+        public static final int menu_grid=0x7f0a0029;
+        public static final int name=0x7f0a0008;
+        public static final int nickname=0x7f0a0028;
+        public static final int niname=0x7f0a0015;
+        public static final int oahprogressbar=0x7f0a002e;
+        public static final int oaprogresstitle=0x7f0a0030;
+        public static final int ok_del=0x7f0a001f;
+        public static final int pass=0x7f0a0009;
+        public static final int querybook=0x7f0a0031;
+        public static final int re_button=0x7f0a0018;
+        public static final int readlayout=0x7f0a0013;
+        public static final int regin=0x7f0a0007;
+        public static final int repass=0x7f0a0016;
+        public static final int rootbg=0x7f0a000d;
+        public static final int slide_menu=0x7f0a000b;
+        public static final int tab_menu=0x7f0a000f;
+        public static final int text1=0x7f0a0002;
+        public static final int text2=0x7f0a0003;
+        public static final int text2_list_childs=0x7f0a0041;
+        public static final int text_list_childs=0x7f0a0040;
+        public static final int title_Image=0x7f0a0027;
+        public static final int title_bar_menu_btn=0x7f0a002a;
+        public static final int title_bar_name=0x7f0a002b;
+        public static final int tv_item=0x7f0a002d;
+        public static final int typebook=0x7f0a0037;
+        public static final int vPager=0x7f0a0005;
+        public static final int zListone=0x7f0a003c;
+        public static final int zListtwo=0x7f0a003d;
     }
     public static final class layout {
         public static final int activity_bookhistory=0x7f030000;
@@ -237,23 +244,25 @@ containing a value of this type.
         public static final int layout_menu=0x7f03000b;
         public static final int layout_title_bar=0x7f03000c;
         public static final int list_item_menu=0x7f03000d;
-        public static final int mymark=0x7f03000e;
-        public static final int myprogressdialog=0x7f03000f;
-        public static final int query_book_activity=0x7f030010;
-        public static final int showdownbook=0x7f030011;
-        public static final int viewpageone=0x7f030012;
-        public static final int viewpagetwo=0x7f030013;
-        public static final int wenjian_listview=0x7f030014;
+        public static final int mydialog=0x7f03000e;
+        public static final int mymark=0x7f03000f;
+        public static final int myprogressdialog=0x7f030010;
+        public static final int query_book_activity=0x7f030011;
+        public static final int showdownbook=0x7f030012;
+        public static final int viewpageone=0x7f030013;
+        public static final int viewpagetwo=0x7f030014;
+        public static final int vipshowdownbook=0x7f030015;
+        public static final int wenjian_listview=0x7f030016;
     }
     public static final class menu {
-        public static final int main=0x7f0a0000;
-        public static final int query_book=0x7f0a0001;
+        public static final int main=0x7f090000;
+        public static final int query_book=0x7f090001;
     }
     public static final class string {
-        public static final int action_settings=0x7f080002;
-        public static final int app_name=0x7f080000;
-        public static final int hello_world=0x7f080001;
-        public static final int title_activity_query_book=0x7f080003;
+        public static final int action_settings=0x7f070002;
+        public static final int app_name=0x7f070000;
+        public static final int hello_world=0x7f070001;
+        public static final int title_activity_query_book=0x7f070003;
     }
     public static final class style {
         /** 
@@ -277,12 +286,12 @@ containing a value of this type.
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f090000;
+        public static final int AppBaseTheme=0x7f080000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f090001;
-        public static final int dialog=0x7f090002;
+        public static final int AppTheme=0x7f080001;
+        public static final int dialog=0x7f080002;
     }
     public static final class styleable {
         /** Attributes that can be used with a CircleImageView.

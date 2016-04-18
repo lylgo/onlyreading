@@ -17,8 +17,6 @@ import android.widget.Scroller;
 
 /**
  * 控制页面画出贝塞尔曲线
- * 
- * 
  */
 public class PageWidget extends View {
 
@@ -114,7 +112,6 @@ public class PageWidget extends View {
 	}
 
 	public boolean doTouchEvent(MotionEvent event) {
-
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			mTouch.x = event.getX();
 			mTouch.y = event.getY();
@@ -123,16 +120,16 @@ public class PageWidget extends View {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			mTouch.x = event.getX();
 			mTouch.y = event.getY();
-			// calcCornerXY(mTouch.x, mTouch.y);
-			// this.postInvalidate();
+//			 calcCornerXY(mTouch.x, mTouch.y);
+//			 this.postInvalidate();
 		}
 		if (event.getAction() == MotionEvent.ACTION_UP) {
-			// if (canDragOver()) {
-			// startAnimation(1200);
-			// } else {
-			// mTouch.x = mCornerX - 10f;
-			// mTouch.y = mCornerY - 10f;
-			// }
+			if (canDragOver()) {
+				startAnimation(1200);
+			} else {
+				mTouch.x = mCornerX - 10f;
+				mTouch.y = mCornerY - 10f;
+			}
 			// 直接画出动画而不使用时上面的条件判断
 			startAnimation(1200);
 			this.postInvalidate();
@@ -172,7 +169,13 @@ public class PageWidget extends View {
 		mBezierControl2.x = mCornerX;
 		mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX)
 				* (mCornerX - mMiddleX) / (mCornerY - mMiddleY);
-		
+
+		// Log.i("hmg", "mTouchX  " + mTouch.x + "  mTouchY  " + mTouch.y);
+		// Log.i("hmg", "mBezierControl1.x  " + mBezierControl1.x
+		// + "  mBezierControl1.y  " + mBezierControl1.y);
+		// Log.i("hmg", "mBezierControl2.x  " + mBezierControl2.x
+		// + "  mBezierControl2.y  " + mBezierControl2.y);
+
 		mBezierStart1.x = mBezierControl1.x - (mCornerX - mBezierControl1.x)
 				/ 2;
 		mBezierStart1.y = mCornerY;
@@ -202,6 +205,12 @@ public class PageWidget extends View {
 				mBezierControl2.x = mCornerX;
 				mBezierControl2.y = mMiddleY - (mCornerX - mMiddleX)
 						* (mCornerX - mMiddleX) / (mCornerY - mMiddleY);
+				// Log.i("hmg", "mTouchX --> " + mTouch.x + "  mTouchY-->  "
+				// + mTouch.y);
+				// Log.i("hmg", "mBezierControl1.x--  " + mBezierControl1.x
+				// + "  mBezierControl1.y -- " + mBezierControl1.y);
+				// Log.i("hmg", "mBezierControl2.x -- " + mBezierControl2.x
+				// + "  mBezierControl2.y -- " + mBezierControl2.y);
 				mBezierStart1.x = mBezierControl1.x
 						- (mCornerX - mBezierControl1.x) / 2;
 			}
@@ -217,7 +226,17 @@ public class PageWidget extends View {
 				mBezierStart2);
 		mBezierEnd2 = getCross(mTouch, mBezierControl2, mBezierStart1,
 				mBezierStart2);
-		
+
+		// Log.i("hmg", "mBezierEnd1.x  " + mBezierEnd1.x + "  mBezierEnd1.y  "
+		// + mBezierEnd1.y);
+		// Log.i("hmg", "mBezierEnd2.x  " + mBezierEnd2.x + "  mBezierEnd2.y  "
+		// + mBezierEnd2.y);
+
+		/*
+		 * mBeziervertex1.x 推导
+		 * ((mBezierStart1.x+mBezierEnd1.x)/2+mBezierControl1.x)/2 化简等价于
+		 * (mBezierStart1.x+ 2*mBezierControl1.x+mBezierEnd1.x) / 4
+		 */
 		mBeziervertex1.x = (mBezierStart1.x + 2 * mBezierControl1.x + mBezierEnd1.x) / 4;
 		mBeziervertex1.y = (2 * mBezierControl1.y + mBezierStart1.y + mBezierEnd1.y) / 4;
 		mBeziervertex2.x = (mBezierStart2.x + 2 * mBezierControl2.x + mBezierEnd2.x) / 4;
@@ -300,8 +319,7 @@ public class PageWidget extends View {
 	 * 创建阴影的GradientDrawable
 	 */
 	private void createDrawable() {
-		int[] color = { 0x666666, 0xb0666666 };
-		// GradientDrawable支持使用渐变色来绘制图形,设置左渐变
+		int[] color = { 0x333333, 0xb0333333 };
 		mFolderShadowDrawableRL = new GradientDrawable(
 				GradientDrawable.Orientation.RIGHT_LEFT, color);
 		mFolderShadowDrawableRL
@@ -309,7 +327,6 @@ public class PageWidget extends View {
 
 		mFolderShadowDrawableLR = new GradientDrawable(
 				GradientDrawable.Orientation.LEFT_RIGHT, color);
-		
 		mFolderShadowDrawableLR
 				.setGradientType(GradientDrawable.LINEAR_GRADIENT);
 
@@ -342,7 +359,7 @@ public class PageWidget extends View {
 		mFrontShadowDrawableHBT
 				.setGradientType(GradientDrawable.LINEAR_GRADIENT);
 	}
-	
+
 	/**
 	 * 绘制翻起页的阴影
 	 * 
@@ -548,7 +565,7 @@ public class PageWidget extends View {
 	 * @return
 	 */
 	public boolean canDragOver() {
-		if (mTouchToCornerDis > mScreenWidth /10)
+		if (mTouchToCornerDis > mScreenWidth / 10)
 			return true;
 		return false;
 	}

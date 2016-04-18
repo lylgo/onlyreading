@@ -10,6 +10,8 @@ import zrc.widget.SimpleHeader;
 import zrc.widget.ZrcListView;
 import zrc.widget.ZrcListView.OnStartListener;
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.AsyncTask;
@@ -53,16 +55,19 @@ public class BookstoreActivity extends BaseActivity {
 	private ZrcListView listone, listtwo;
 	private Handler handler;
 	private MyAdapter adapter;
-	private List<Book> books = new ArrayList<Book>();;
+	private MyAdaptertwo adaptertwo;
+	private List<Book> books = new ArrayList<Book>();
+	private List<Book> bookone = new ArrayList<Book>();
 	private int cont = 2;// 加载页数
 	private String Tonumberpage;// 总页数
-	private List<Book> rebook;
+	private SharedPreferences sp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bookstore);
-		new myastybooklist().execute(String.valueOf(1));
+		new myastybooklist().execute(new String[] { "1", "2" });
+		sp = getSharedPreferences("land", MODE_PRIVATE);
 		InitImageView();
 		InitTextView();
 		InitViewPager();
@@ -177,15 +182,16 @@ public class BookstoreActivity extends BaseActivity {
 			}
 			viewhoder.nametext.setText(books.get(position).getBookName());
 			viewhoder.typetext.setText(books.get(position).getBookType());
-			viewhoder.destext.setText(books.get(position).getDescribe());
+			viewhoder.destext.setText("\t\t"
+					+ books.get(position).getDescribe());
 			final int progre = position;
 			viewhoder.downbutton.setOnClickListener(new OnClickListener() {
-
 				@Override
 				public void onClick(View v) {
 					DownBookHttpUtils.downloadbook(viewhoder.progress,
-							BookstoreActivity.this,String.valueOf(books.get(progre).getId()) ,
-							viewhoder.downbutton,books.get(progre).getBookName());
+							BookstoreActivity.this, String.valueOf(books.get(
+									progre).getId()), viewhoder.downbutton,
+							books.get(progre).getBookName());
 				}
 			});
 			return view;
@@ -199,16 +205,106 @@ public class BookstoreActivity extends BaseActivity {
 
 	}
 
+	/**
+	 * 第二次页的数据适配器
+	 * 
+	 * @author Administrator
+	 */
+	private class MyAdaptertwo extends BaseAdapter {
+		@Override
+		public int getCount() {
+			return bookone == null ? 0 : bookone.size();
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return bookone.get(position);
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			View view;
+			final ViewHoder viewhoder;
+			if (convertView == null) {
+				view = getLayoutInflater().inflate(R.layout.vipshowdownbook,
+						null);
+				viewhoder = new ViewHoder();
+				viewhoder.nametext = (TextView) view
+						.findViewById(R.id.bookname);
+				viewhoder.typetext = (TextView) view
+						.findViewById(R.id.typebook);
+				viewhoder.destext = (TextView) view.findViewById(R.id.desbook);
+				viewhoder.downbutton = (Button) view
+						.findViewById(R.id.down_button);
+				viewhoder.progress = (ProgressBar) view
+						.findViewById(R.id.downbar);
+				viewhoder.collecbutton = (Button) view.findViewById(R.id.collect_button);
+				view.setTag(viewhoder);
+			} else {
+				view = convertView;
+				viewhoder = (ViewHoder) view.getTag();
+			}
+			viewhoder.nametext.setText(bookone.get(position).getBookName());
+			viewhoder.typetext.setText(bookone.get(position).getBookType());
+			viewhoder.destext.setText("\t\t"
+					+ bookone.get(position).getDescribe());
+			final int progre = position;
+			viewhoder.downbutton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (sp.getString("email", "").equals("")) {
+						Toast.makeText(BookstoreActivity.this, "对不起，你尚未登陆",
+								Toast.LENGTH_SHORT).show();
+					} else {
+						DownBookHttpUtils.downloadbook(viewhoder.progress,
+								BookstoreActivity.this, String.valueOf(bookone
+										.get(progre).getId()),
+								viewhoder.downbutton, bookone.get(progre)
+										.getBookName());
+					}
+				}
+			});
+			viewhoder.collecbutton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					if (sp.getString("email", "").equals("")) {
+						Toast.makeText(BookstoreActivity.this, "对不起，你尚未登陆",
+								Toast.LENGTH_SHORT).show();
+					}else{
+						
+					}
+				}
+			});
+			return view;
+		}
+
+		class ViewHoder {
+			TextView nametext, typetext, destext;
+			Button downbutton, collecbutton;
+			ProgressBar progress;
+
+		}
+
+	}
+
 	class myastybooklist extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("num", params[0]);
+			map.put("type", params[1]);
 			String result = HttptestUtils.submitPostData(map, "UTF-8",
 					Const.GETBOOKLISTPATH);
 			if (cont == 2) {
-				Tonumberpage = HttptestUtils.submitPostData(null, "UTF-8",
+				Map<String, String> hashmap = new HashMap<String, String>();
+				Tonumberpage = HttptestUtils.submitPostData(hashmap, "UTF-8",
 						Const.PAGENUMBERPATH);
 			}
 			return result;
@@ -216,20 +312,25 @@ public class BookstoreActivity extends BaseActivity {
 
 		@Override
 		protected void onPostExecute(String result) {
-			rebook = JsonUtils.JsonTools(result);
-			Log.i("BOOK", Tonumberpage);
-			for (Book book : rebook) {
-				books.add(book);
+			if (viewPager.getCurrentItem() == 0) {
+				List<Book> rebook = JsonUtils.JsonTools(result);
+				for (Book book : rebook)
+					books.add(book);
+				adapter = new MyAdapter();
+				rebook.clear();
+				listone.setAdapter(adapter);
+			} else {
+				bookone = JsonUtils.JsonTools(result);
+				adaptertwo = new MyAdaptertwo();
+				listtwo.setAdapter(adaptertwo);
 			}
-			adapter = new MyAdapter();
-			rebook.clear();
-			listone.setAdapter(adapter);
 		}
 	}
 
 	/**
-	 * 一下设置ViewPage
+	 * 一下设置ViewPagef
 	 */
+	@SuppressLint("InflateParams")
 	private void InitViewPager() {
 		viewPager = (ViewPager) findViewById(R.id.vPager);
 		views = new ArrayList<View>();
@@ -250,7 +351,6 @@ public class BookstoreActivity extends BaseActivity {
 	private void InitTextView() {
 		textView1 = (TextView) findViewById(R.id.text1);
 		textView2 = (TextView) findViewById(R.id.text2);
-
 		textView1.setOnClickListener(new MyOnClickListener(0));
 		textView2.setOnClickListener(new MyOnClickListener(1));
 	}
@@ -288,6 +388,12 @@ public class BookstoreActivity extends BaseActivity {
 		}
 	}
 
+	/**
+	 * viewPager的填充器
+	 * 
+	 * @author Administrator
+	 * 
+	 */
 	public class MyViewPagerAdapter extends PagerAdapter {
 		private List<View> mListViews;
 
@@ -319,13 +425,11 @@ public class BookstoreActivity extends BaseActivity {
 
 	public class MyOnPageChangeListener implements OnPageChangeListener {
 		int one = offset * 2 + bmpW;// 页卡1 -> 页卡2 偏移量
-		int two = one * 2;// 页卡1 -> 页卡3 偏移量
 
 		public void onPageScrollStateChanged(int arg0) {
 		}
 
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
-
 		}
 
 		public void onPageSelected(int arg0) {
@@ -335,9 +439,9 @@ public class BookstoreActivity extends BaseActivity {
 			animation.setFillAfter(true);// True:图片停在动画结束位置
 			animation.setDuration(300);
 			imageView.startAnimation(animation);
-			Toast.makeText(BookstoreActivity.this,
-					"您选择了" + viewPager.getCurrentItem() + "页卡",
-					Toast.LENGTH_SHORT).show();
+			if (viewPager.getCurrentItem() == 1) {
+				new myastybooklist().execute(new String[] { "1", "1" });
+			}
 		}
 	}
 }

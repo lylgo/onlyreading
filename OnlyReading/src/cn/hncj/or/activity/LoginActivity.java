@@ -97,12 +97,11 @@ public class LoginActivity extends BaseActivity {
 	}
 	
 	public void showdig() {
-		
 		dialog = new ProgressDialog(this);
 	    dialog.setCancelable(false);
-		dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+	    dialog.show();
+	    dialog.setContentView(R.layout.mydialog);
 		dialog.setCanceledOnTouchOutside(false);
-		dialog.show();
 	}
 	class loginServer extends AsyncTask<Object,Void, String>{
 		    @Override
@@ -121,7 +120,6 @@ public class LoginActivity extends BaseActivity {
         protected void onPostExecute(String result) {
         // TODO Auto-generated method stub
         	String str[]=result.split("#");
-        	Log.i("FFFF", str[0]+"kkkkkk");
         	if(str[0].equals("SU")){
         		dialog.dismiss();
         		sp=getSharedPreferences("land",MODE_PRIVATE );

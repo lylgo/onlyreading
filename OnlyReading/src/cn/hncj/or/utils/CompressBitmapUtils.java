@@ -86,7 +86,9 @@ public class CompressBitmapUtils {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}else{
+		}else{ 
+			File fi=new File(Environment.getExternalStorageDirectory().getPath()+"/onlyreading");
+			fi.mkdirs();
 			HttpUtils http = new HttpUtils();
 			HttpHandler handler = http.download(Const.DOWNIMAGEPath+email,
 					Environment.getExternalStorageDirectory().getPath()+"/onlyreading/"+".png",

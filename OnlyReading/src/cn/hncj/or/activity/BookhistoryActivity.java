@@ -110,7 +110,7 @@ public class BookhistoryActivity extends BaseActivity implements
 	 * 读取配置文件中亮度值
 	 */
 	private void getLight() {
-		light = sp.getInt("light", 5);
+		light = sp.getInt("light", 10);
 		isNight = sp.getBoolean("night", false);
 	}
 
@@ -241,7 +241,6 @@ public class BookhistoryActivity extends BaseActivity implements
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		mContext = getBaseContext();
 		WindowManager manage = getWindowManager();
 		Display display = manage.getDefaultDisplay();
 		screenWidth = display.getWidth();
@@ -254,6 +253,7 @@ public class BookhistoryActivity extends BaseActivity implements
 				Bitmap.Config.ARGB_8888);
 		mCurPageCanvas = new Canvas(mCurPageBitmap);
 		mNextPageCanvas = new Canvas(mNextPageBitmap);
+		
 		mPageWidget = new PageWidget(this, screenWidth, screenHeight);// 生成页面
 		setContentView(R.layout.activity_readbook);
 		RelativeLayout readlayout = (RelativeLayout) findViewById(R.id.readlayout);
@@ -332,7 +332,7 @@ public class BookhistoryActivity extends BaseActivity implements
 		pagefactory = new BookPageFactory(screenWidth, screenHeight);// 书工厂
 		if (isNight) {
 			pagefactory.setBgBitmap(BitmapFactory.decodeResource(
-					this.getResources(), R.drawable.main_bg));
+					this.getResources(), R.drawable.night_book_bg));
 			pagefactory.setM_textColor(Color.rgb(128, 128, 128));
 		} else {
 			pagefactory.setBgBitmap(BitmapFactory.decodeResource(
@@ -341,7 +341,7 @@ public class BookhistoryActivity extends BaseActivity implements
 		}
 		begin = sp.getInt(bookPath + "begin", 0);
 		try {
-			pagefactory.openbook("mnt/sdcard/" + bookPath, begin);
+			pagefactory.openbook( bookPath, begin);
 //			
 //			Intent intent3=getIntent();
 //			txtName1=intent3.getStringExtra("txtName2");

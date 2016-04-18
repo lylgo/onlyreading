@@ -20,7 +20,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/book_default_cover" />
+                android:background="@drawable/down_book" />
 
             <TextView
                 android:id="@+id/bookname"
@@ -51,7 +51,7 @@
         <Button
             android:id="@+id/down_button"
             android:layout_width="150dip"
-            android:layout_height="wrap_content"
+            android:layout_height="25dip"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="270dip"
             android:background="@drawable/down"

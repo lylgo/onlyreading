@@ -6,18 +6,18 @@ import java.io.UnsupportedEncodingException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 
-import cn.hncj.or.utils.MyApplication;
-
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
-import android.graphics.Typeface;
 import android.util.Log;
 
+@SuppressLint("DrawAllocation")
 public class BookPageFactory {
 
 	private static final String TAG = "BookPageFactory";
@@ -41,7 +41,7 @@ public class BookPageFactory {
 	private int marginWidth = 15; // 左右与边缘的距离
 	private int mHeight;
 	private int mLineCount; // 每页可以显示的行数
-	private Paint mPaint;
+	private Paint mPaint ,textpaint;
 
 	private float mVisibleHeight; // 绘制内容的宽
 	private float mVisibleWidth; // 绘制内容的宽
@@ -50,8 +50,11 @@ public class BookPageFactory {
 	public BookPageFactory(int w, int h) {
 		mWidth = w;
 		mHeight = h;
-		//Typeface.createFromAsset(MyApplication.getcontext().getAssets(),"fonts/DFP_GBWW5.TTF.ttf");  
-		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);// 画笔 //消除锯齿   
+		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);// 画笔
+		mPaint.setStrokeWidth(10);
+		textpaint=new Paint(Paint.ANTI_ALIAS_FLAG);
+		textpaint.setTextSize(25);
+		textpaint.setColor(m_textColor);
 		mPaint.setTextAlign(Align.LEFT);// 做对其
 		mPaint.setTextSize(m_fontSize);// 字体大小
 		mPaint.setColor(m_textColor);// 字体颜色
@@ -59,7 +62,7 @@ public class BookPageFactory {
 		mVisibleHeight = mHeight - marginHeight * 2;
 		mLineCount = (int) (mVisibleHeight / m_fontSize) - 1; // 可显示的行数,-1是因为底部显示进度的位置容易被遮住
 	}
-	
+
 	public int getM_fontSize() {
 		return m_fontSize;
 	}
@@ -117,7 +120,10 @@ public class BookPageFactory {
 		DecimalFormat df = new DecimalFormat("#0.0");
 		String strPercent = df.format(fPercent * 100) + "%";
 		int nPercentWidth = (int) mPaint.measureText("999.9%") + 1;
-		c.drawText(strPercent, mWidth - nPercentWidth, mHeight - 5, mPaint);
+		SimpleDateFormat sDateFormat = new SimpleDateFormat("hh:mm");
+		String date = sDateFormat.format(new java.util.Date());
+		c.drawText(date,(mWidth-40)/2,mHeight-5,textpaint);//日期
+		c.drawText(strPercent, mWidth - nPercentWidth, mHeight - 5, textpaint);
 	}
 
 	/**
@@ -131,6 +137,7 @@ public class BookPageFactory {
 	 */
 	public void openbook(String strFilePath, int begin) throws IOException {
 		book_file = new File(strFilePath);
+		// book_file=new File("mnt/sdcard/s.txt");
 		long lLen = book_file.length();
 		m_mbBufLen = (int) lLen;
 		m_mbBuf = new RandomAccessFile(book_file, "r").getChannel().map(

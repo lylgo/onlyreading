@@ -111,10 +111,10 @@ public class RegisterActivity extends BaseActivity {
 	}
 	public void showdig() {
 		dialog = new ProgressDialog(this);
-		// dialog.setCancelable(false);
-		dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		dialog.setCanceledOnTouchOutside(false);
 		dialog.show();
+		dialog.setContentView(R.layout.mydialog);
+		dialog.setCanceledOnTouchOutside(false);
+		
 	}
 	
 	// **
