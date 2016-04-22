@@ -11,20 +11,21 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class BookDb extends SQLiteOpenHelper {
 	private static final int DATA_VERSION = 1;
-	private String table;
 
-	public BookDb(Context context, String name) {
+	public BookDb(Context context) {
 		super(context, Const.DATABASE_NAME, null, DATA_VERSION);
-		this.table=name;
 	}
-
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-		String sql = "CREATE TABLE " + table + " ( parent text not null, "
+		String msql = "CREATE TABLE " + Const.DB_TMARK + " ( path text not null, "
+				+ "begin int not null default 0,"
+				+ " word text not null , time text not null);";
+		String sql = "CREATE TABLE " + Const.DB_TNAME + " ( parent text not null, "
 				+ "path text not null, "+"type  text not null"
 				+ ", now  text not null, ready);";
 		db.execSQL(sql);
+		db.execSQL(msql);
 	}
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

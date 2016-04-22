@@ -1,4 +1,5 @@
 package cn.hncj.or.read;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -10,19 +11,22 @@ import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.text.Layout.Alignment;
+import android.text.StaticLayout;
+import android.text.TextPaint;
 import android.util.Log;
 
 @SuppressLint("DrawAllocation")
 public class BookPageFactory {
-
-	private static final String TAG = "BookPageFactory";
 	private File book_file = null;
-	private int m_backColor = 0xffff9e85; // 背景颜色
+	//0xDED6BD  0xffff9e85
+	private int m_backColor =0xffff9e85; // 背景颜色
 	private Bitmap m_book_bg = null;
 	private int m_fontSize = 20;
 	private boolean m_isfirstPage, m_islastPage;
@@ -40,9 +44,10 @@ public class BookPageFactory {
 	private int marginHeight = 15; // 上下与边缘的距离
 	private int marginWidth = 15; // 左右与边缘的距离
 	private int mHeight;
-	private int mLineCount; // 每页可以显示的行数
-	private Paint mPaint ,textpaint;
-
+	private int mLineCount; // 每页可以显示的行数z
+	private Paint mPaint, textpaint;
+    
+    
 	private float mVisibleHeight; // 绘制内容的宽
 	private float mVisibleWidth; // 绘制内容的宽
 	private int mWidth;
@@ -52,7 +57,7 @@ public class BookPageFactory {
 		mHeight = h;
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);// 画笔
 		mPaint.setStrokeWidth(10);
-		textpaint=new Paint(Paint.ANTI_ALIAS_FLAG);
+		textpaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		textpaint.setTextSize(25);
 		textpaint.setColor(m_textColor);
 		mPaint.setTextAlign(Align.LEFT);// 做对其
@@ -111,6 +116,7 @@ public class BookPageFactory {
 			else
 				c.drawBitmap(m_book_bg, 0, 0, null);
 			int y = marginHeight;
+			Log.i("FFF", m_lines.toString());
 			for (String strLine : m_lines) {
 				y += m_fontSize;
 				c.drawText(strLine, marginWidth, y, mPaint);
@@ -122,7 +128,7 @@ public class BookPageFactory {
 		int nPercentWidth = (int) mPaint.measureText("999.9%") + 1;
 		SimpleDateFormat sDateFormat = new SimpleDateFormat("hh:mm");
 		String date = sDateFormat.format(new java.util.Date());
-		c.drawText(date,(mWidth-40)/2,mHeight-5,textpaint);//日期
+		c.drawText(date, (mWidth - 40) / 2, mHeight - 5, textpaint);// 日期
 		c.drawText(strPercent, mWidth - nPercentWidth, mHeight - 5, textpaint);
 	}
 
@@ -135,23 +141,19 @@ public class BookPageFactory {
 	 * 
 	 * @throws IOException
 	 */
+	@SuppressWarnings("resource")
 	public void openbook(String strFilePath, int begin) throws IOException {
 		book_file = new File(strFilePath);
-		// book_file=new File("mnt/sdcard/s.txt");
 		long lLen = book_file.length();
 		m_mbBufLen = (int) lLen;
 		m_mbBuf = new RandomAccessFile(book_file, "r").getChannel().map(
 				FileChannel.MapMode.READ_ONLY, 0, lLen);
-		Log.d(TAG, "total lenth：" + m_mbBufLen);
 		// 设置已读进度
 		if (begin >= 0) {
 			m_mbBufBegin = begin;
 			m_mbBufEnd = begin;
-		} else {
 		}
 	}
-
-	
 
 	/**
 	 * 画指定页的下一页
@@ -169,7 +171,6 @@ public class BookPageFactory {
 			try {
 				strParagraph = new String(paraBuf, m_strCharsetName);// 转换成制定GBK编码
 			} catch (UnsupportedEncodingException e) {
-				Log.e(TAG, "pageDown->转换编码失败", e);
 			}
 			String strReturn = "";
 			// 替换掉回车换行符
@@ -201,7 +202,6 @@ public class BookPageFactory {
 					m_mbBufEnd -= (strParagraph + strReturn)
 							.getBytes(m_strCharsetName).length;
 				} catch (UnsupportedEncodingException e) {
-					Log.e(TAG, "pageDown->记录结束点位置失败", e);
 				}
 			}
 		}
@@ -223,7 +223,6 @@ public class BookPageFactory {
 			try {
 				strParagraph = new String(paraBuf, m_strCharsetName);
 			} catch (UnsupportedEncodingException e) {
-				Log.e(TAG, "pageUp->转换编码失败", e);
 			}
 			strParagraph = strParagraph.replaceAll("\r\n", "");
 			strParagraph = strParagraph.replaceAll("\n", "");
@@ -246,7 +245,6 @@ public class BookPageFactory {
 				m_mbBufBegin += lines.get(0).getBytes(m_strCharsetName).length;
 				lines.remove(0);
 			} catch (UnsupportedEncodingException e) {
-				Log.e(TAG, "pageUp->记录起始点位置失败", e);
 			}
 		}
 		m_mbBufEnd = m_mbBufBegin;// 上上一页的结束点等于上一页的起始点
@@ -371,7 +369,9 @@ public class BookPageFactory {
 	public void setBgBitmap(Bitmap BG) {
 		m_book_bg = BG;
 	}
-
+	public void setBgcolor(int color) {
+		m_backColor=color;
+	}
 	public void setM_fontSize(int m_fontSize) {
 		this.m_fontSize = m_fontSize;
 		mLineCount = (int) (mVisibleHeight / m_fontSize) - 1;
@@ -410,5 +410,8 @@ public class BookPageFactory {
 	public int getM_mbBufEnd() {
 		return m_mbBufEnd;
 	}
-
+	public  Vector<String> getbooktext(){
+		Vector<String> readtext=m_lines;
+		return readtext;
+	}
 }

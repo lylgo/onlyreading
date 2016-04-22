@@ -42,7 +42,7 @@ public class DownBookHttpUtils {
 						@Override
 						public void onSuccess(ResponseInfo<File> arg0) {
 							// TODO Auto-generated method stub
-							BookDb bookdb = new BookDb(context, Const.DB_TNAME);// 加载数据库
+							BookDb bookdb = new BookDb(context);// 加载数据库
 							SQLiteDatabase database = bookdb
 									.getWritableDatabase();
 							File file = new File(Const.LocalFile + "/books/"

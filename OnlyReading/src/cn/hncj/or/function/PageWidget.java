@@ -11,6 +11,7 @@ import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.Region;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Scroller;
@@ -112,16 +113,16 @@ public class PageWidget extends View {
 	}
 
 	public boolean doTouchEvent(MotionEvent event) {
+		if (event.getAction() == MotionEvent.ACTION_DOWN) {
+			mTouch.x = event.getX();
+			mTouch.y = event.getX();
+//			 calcCornerXY(mTouch.x, mTouch.y);
+//			 this.postInvalidate();
+		}
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			mTouch.x = event.getX();
 			mTouch.y = event.getY();
 			this.postInvalidate();
-		}
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			mTouch.x = event.getX();
-			mTouch.y = event.getY();
-//			 calcCornerXY(mTouch.x, mTouch.y);
-//			 this.postInvalidate();
 		}
 		if (event.getAction() == MotionEvent.ACTION_UP) {
 			if (canDragOver()) {
@@ -130,12 +131,21 @@ public class PageWidget extends View {
 				mTouch.x = mCornerX - 10f;
 				mTouch.y = mCornerY - 10f;
 			}
-			// 直接画出动画而不使用时上面的条件判断
+//			// 直接画出动画而不使用时上面的条件判断
 			startAnimation(1200);
 			this.postInvalidate();
 		}
 		// return super.onTouchEvent(event);
 		return true;
+	}
+
+	public void rollread() {
+		float xx=(float) 432.0998;
+		float yy=(float) 432.0998;
+		mTouch.x =xx;
+		mTouch.y = yy;
+		startAnimation(1200);
+		this.postInvalidate();
 	}
 
 	/**

@@ -14,7 +14,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -29,10 +28,9 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
-import cn.hncj.or.db.BookmarkDb;
+import cn.hncj.or.db.BookDb;
 import cn.hncj.or.function.PageWidget;
 import cn.hncj.or.read.BookPageFactory;
-import cn.hncj.or.read.MarkDialog;
 
 import com.hncj.activity.R;
 
@@ -56,9 +54,8 @@ public class BookhistoryActivity extends BaseActivity implements
 	private int light; // 亮度值
 	private WindowManager.LayoutParams windlp;
 	private TextView markEdit4;
-	private BookmarkDb bookDb;
+	private BookDb bookDb;
 	private Bitmap mCurPageBitmap, mNextPageBitmap;
-	private MarkDialog mDialog = null;
 	private Context mContext = null;
 	private PageWidget mPageWidget;
 	private PopupWindow mPopupWindow, mToolpop, mToolpop1, mToolpop2,
@@ -353,7 +350,7 @@ public class BookhistoryActivity extends BaseActivity implements
 		} catch (Exception e1) {
 			Toast.makeText(this, "打开电子书失败", Toast.LENGTH_SHORT).show();
 		}
-		bookDb = new BookmarkDb(this);
+		bookDb = new BookDb(this);
 	}
 	
 	@Override

@@ -48,6 +48,8 @@ import cn.hncj.or.utils.CompressBitmapUtils;
 import cn.hncj.or.utils.MyApplication;
 
 import com.hncj.activity.R;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechUtility;
 
 public class MainActivity extends BaseActivity implements OnClickListener {
 	private SlideMenu slideMenu;
@@ -77,6 +79,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		SpeechUtility.createUtility(this, SpeechConstant.APPID+"=5713667d");//初始化
 		slideMenu = (SlideMenu) findViewById(R.id.slide_menu);
 		cricleview = (CircleImageView) findViewById(R.id.title_bar_menu_btn);
 		menugridView = (GridView) findViewById(R.id.menu_grid);
@@ -97,7 +100,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		cricleview.setOnClickListener(this);
 		initView();
 		gridView = (MyGridView) findViewById(R.id.book_gridview);
-		bookdb = new BookDb(MyApplication.context, Const.DB_TNAME);
+		bookdb = new BookDb(MainActivity.this);
 		loadBookdata();
 		gridView.setOnItemLongClickListener(new OnItemLongClickListener() {
 			@Override
@@ -157,13 +160,16 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				// TODO Auto-generated method stub
 				switch (position) {
 				case 0:
-					sp = getSharedPreferences("land", MODE_PRIVATE);
-					Editor editor = sp.edit();
-					editor.putString("name", "尚未登陆");
-					editor.putString("email", "");
-					editor.putString("date", "");
-					editor.commit();
-					Toast.makeText(getApplication(), "s", 1).show();
+//					sp = getSharedPreferences("land", MODE_PRIVATE);
+//					Editor editor = sp.edit();
+//					editor.putString("name", "尚未登陆");
+//					editor.putString("email", "");
+//					editor.putString("date", "");
+//					editor.commit();
+//					Toast.makeText(getApplication(), "s", 1).show();
+					Intent intent=new Intent(MainActivity.this,CollecActivity.class);
+					startActivity(intent);
+					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
 					break;
 				case 1:
 					break;

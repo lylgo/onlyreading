@@ -63,7 +63,7 @@ public class QueryBookActivity extends BaseActivity {
 		listListenter(); // listView的监听
 		button = (Button) findViewById(R.id.btn_leftTop);
 		pathtext.setText("路径：" + mCurrentFilePath);
-		bookdb = new BookDb(this, Const.DB_TNAME);// 加载数据库
+		bookdb = new BookDb(this);// 加载数据库
 		// 加载弹窗
 		popview = this.getLayoutInflater().inflate(R.layout.addbook_popwindow,
 				null);
@@ -132,8 +132,6 @@ public class QueryBookActivity extends BaseActivity {
 								QueryBookActivity.this, mFileName, mFilePaths));
 						pathtext.setText("路径：" + mCurrentFilePath);
 					} else if (fileEndsname.equals("txt")) {
-						Log.i("TTT",mFilePaths.get(arg2) + "------"
-										+ mFile.getParent());
 						showpop(mFile.getParent(), mFilePaths.get(arg2));
 					} else {// 如果不是文件夹
 						openFile(mFile);

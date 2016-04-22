@@ -33,6 +33,7 @@
         <activity android:name="cn.hncj.or.activity.ReadBookActivity" />
         <activity android:name="cn.hncj.or.activity.RegisterActivity" />
         <activity android:name="cn.hncj.or.activity.LoginActivity" />
+        <activity android:name="cn.hncj.or.activity.CollecActivity"/>
     </application>
 
 </manifest>
