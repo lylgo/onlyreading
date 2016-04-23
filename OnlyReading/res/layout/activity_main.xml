@@ -83,6 +83,7 @@
                     android:layout_gravity="bottom"
                     android:layout_weight="1"
                     android:button="@null"
+                    android:background="@drawable/tab_selector_checked_bg"
                     android:drawableTop="@drawable/tab_selector_bookhistory"
                     android:gravity="center_horizontal|bottom"
                     android:paddingTop="8dp"

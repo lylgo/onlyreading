@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dip"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="#4A4D54"
+        android:orientation="horizontal" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dip"
+            android:text="调整进度"
+            android:textColor="#C4C4C4" />
+        <SeekBar
+            android:id="@+id/pop_progressbar"
+            android:layout_width="208dp"
+            android:layout_height="10dip"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dip"
+            android:background="#383A40"
+            android:thumb="@drawable/tab_bar"
+            android:max="100"
+            android:progress="50" />
+
+        <TextView
+            android:id="@+id/pop_textpress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dip"
+            android:textColor="#C4C4C4" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dip"
+        android:background="#4F4F4F"
+        android:orientation="horizontal" >
+        <RadioGroup
+            android:id="@+id/pop_menu"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="5dip"
+            android:orientation="horizontal" >
+            <RadioButton
+                android:id="@+id/note"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_weight="1"
+                android:background="@drawable/selector_book_note"
+                android:button="@null" />
+            <RadioButton
+                android:id="@+id/right"
+                 android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_marginLeft="20dip"
+                android:background="@drawable/selector_book_light"
+                android:layout_weight="1"
+                android:button="@null" />
+            <RadioButton
+                android:id="@+id/rollreading"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_marginLeft="20dip"
+                android:background="@drawable/selector_book_rolling"
+                android:layout_weight="1"
+                android:button="@null" />
+            <RadioButton
+                android:id="@+id/readset"
+               android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:layout_marginLeft="20dip"
+                android:background="@drawable/selector_book_readset"
+                android:layout_weight="1"
+                android:button="@null" />
+        </RadioGroup>
+    </LinearLayout>
+
+</LinearLayout>

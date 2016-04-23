@@ -62,9 +62,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	private MyGridView gridView;
 	private BookDb bookdb;// 创建数据库
 	private BookAdapter bookadapter;
-	private SharedPreferences sp;
+	private SharedPreferences sp, spconfig;
 	private Dialog builder, ImageDiag;
-	private TextView debutton, nickname;
+	private TextView debutton, nickname,viptextview;
 	private CircleImageView userImage, title_Image;
 	private RadioButton rabutton;
 	private int local;// 删除标志位
@@ -72,14 +72,16 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	protected File tempFile;
 	private String name, email;
 	private static String[] names = { "收藏", "下载", "账户", "设置" };
-	private static int[] ids = { R.drawable.item1, R.drawable.item2,
-			R.drawable.item3, R.drawable.item4 };
+	private static int[] ids = { R.drawable.selector_menu_item1,
+			R.drawable.selector_menu_item2, R.drawable.selector_menu_item3,
+			R.drawable.selector_menu_item4 };
+
 	@SuppressLint("CutPasteId")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		SpeechUtility.createUtility(this, SpeechConstant.APPID+"=5713667d");//初始化
+		SpeechUtility.createUtility(this, SpeechConstant.APPID + "=5713667d");// 初始化
 		slideMenu = (SlideMenu) findViewById(R.id.slide_menu);
 		cricleview = (CircleImageView) findViewById(R.id.title_bar_menu_btn);
 		menugridView = (GridView) findViewById(R.id.menu_grid);
@@ -87,7 +89,9 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		nickname = (TextView) findViewById(R.id.nickname);// 昵称
 		userImage = (CircleImageView) findViewById(R.id.title_Image);
 		title_Image = (CircleImageView) findViewById(R.id.title_bar_menu_btn);
+		viptextview=(TextView) findViewById(R.id.vip_page);
 		sp = getSharedPreferences("land", MODE_PRIVATE);
+		spconfig = getSharedPreferences("bookconfig", MODE_PRIVATE);
 		name = sp.getString("name", "尚未登录");
 		email = sp.getString("email", "");
 		nickname.setText(name);
@@ -146,6 +150,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 					intent.setClass(MainActivity.this, ReadBookActivity.class);
 					intent.putExtra("path", path);
 					startActivity(intent);
+					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
 				}
 			}
 		});
@@ -160,22 +165,32 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				// TODO Auto-generated method stub
 				switch (position) {
 				case 0:
-//					sp = getSharedPreferences("land", MODE_PRIVATE);
-//					Editor editor = sp.edit();
-//					editor.putString("name", "尚未登陆");
-//					editor.putString("email", "");
-//					editor.putString("date", "");
-//					editor.commit();
-//					Toast.makeText(getApplication(), "s", 1).show();
-					Intent intent=new Intent(MainActivity.this,CollecActivity.class);
+					Intent intent = new Intent(MainActivity.this,
+							CollecActivity.class);
 					startActivity(intent);
 					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
+					finish();
 					break;
 				case 1:
+					Intent intentdown = new Intent(MainActivity.this,
+							DownBookActivity.class);
+					startActivity(intentdown);
+					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
+					finish();
 					break;
 				case 2:
+					Intent intentme = new Intent(MainActivity.this,
+							MyCenterActiivity.class);
+					startActivity(intentme);
+					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
+					finish();
 					break;
 				case 3:
+					Intent intentset = new Intent(MainActivity.this,
+							SettingActivity.class);
+					startActivity(intentset);
+					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
+					finish();
 					break;
 				default:
 					break;
@@ -198,6 +213,19 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 					showUerImage();
 				}
 
+			}
+		});
+		/**
+		 * 菜单会员
+		 */
+		viptextview.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this,
+						BookstoreActivity.class);
+				intent.putExtra("page", 1);
+				startActivity(intent);
+				overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
 			}
 		});
 	}
@@ -323,14 +351,19 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 					startActivity(intent);
 					break;
 				case R.id.book_history:
-					Intent intn = new Intent(MainActivity.this,
-							BookhistoryActivity.class);
-					startActivity(intn);
-					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
-					sp = getSharedPreferences("history", MODE_PRIVATE);
-					Editor ed = sp.edit();
-					ed.putString("flag", "flag");
-					ed.commit();
+					String history = spconfig.getString("history", "");
+					if (history.equals("")) {
+						rabutton.setChecked(true);
+						Toast.makeText(MainActivity.this, "你还没有历史记录开始阅读",
+								Toast.LENGTH_LONG).show();
+					} else {
+						Intent intn = new Intent(MainActivity.this,
+								ReadBookActivity.class);
+						intn.putExtra("path", history);
+						startActivity(intn);
+						overridePendingTransition(R.anim.tran_in,
+								R.anim.tran_out);
+					}
 					break;
 				default:
 					break;
@@ -339,7 +372,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			}
 		});
 	}
-
 	/**
 	 * 删除图书
 	 * 
@@ -438,7 +470,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				startActivityForResult(intent, Const.PHOTO_REQUEST_CAMERA);
 			}
 		});
-		
+
 		gabutton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -478,7 +510,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				crop(uri);
 			}
 		} else if (requestCode == Const.PHOTO_REQUEST_CAMERA) {
-			if(data!=null){
+			if (data != null) {
 				Uri uri = data.getData();
 				crop(uri);
 			}

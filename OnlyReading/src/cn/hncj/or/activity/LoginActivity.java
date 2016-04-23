@@ -1,15 +1,8 @@
 package cn.hncj.or.activity;
 
-import java.text.SimpleDateFormat;
+import java.text.SimpleDateFormat; 
 import java.util.HashMap;
 import java.util.Map;
-
-import cn.hncj.or.config.Const;
-import cn.hncj.or.function.CheckNetwork;
-import cn.hncj.or.http.HttptestUtils;
-
-import com.hncj.activity.R;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -18,15 +11,16 @@ import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import cn.hncj.or.config.Const;
+import cn.hncj.or.function.CheckNetwork;
+import cn.hncj.or.http.HttptestUtils;
+import com.hncj.activity.R;
 public class LoginActivity extends BaseActivity {
 	private Button button;
 	private EditText editname,editpass;
@@ -141,6 +135,9 @@ public class LoginActivity extends BaseActivity {
     		}else if(str[0].equals("REG")){
     			dialog.dismiss();
     			Toast.makeText(LoginActivity.this,"’À∫≈≤ª¥Ê‘⁄",Toast.LENGTH_SHORT ).show();
+    		}else{
+    			dialog.dismiss();
+    			Toast.makeText(LoginActivity.this,"Õ¯¬Á“Ï≥£",Toast.LENGTH_SHORT ).show();
     		}
         }
 	}

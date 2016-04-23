@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dip"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="#4A4D54"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dip"
+            android:text="亮度调整"
+            android:textColor="#C4C4C4" />
+
+        <SeekBar
+            android:id="@+id/pop_lightressbar"
+            android:layout_width="208dp"
+            android:layout_height="10dip"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dip"
+            android:background="#383A40"
+            android:max="100"
+            android:progress="50"
+            android:thumb="@drawable/tab_bar" />
+
+        <ImageButton
+            android:id="@+id/pop_textpress"
+            android:layout_width="20dip"
+            android:layout_height="20dip"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dip"
+            android:background="@drawable/pop_light"
+            android:textColor="#C4C4C4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dip"
+        android:background="#4F4F4F"
+        android:orientation="horizontal" >
+        <ImageButton
+            android:id="@+id/saveeye"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dip"
+            android:background="@drawable/pop_light_check"
+            android:clickable="true"
+            android:focusable="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="3dip"
+            android:text="模式切换"
+            android:textColor="#C4C4C4" />
+        <ImageView
+            android:id="@+id/light_setting"
+            android:layout_width="70dip"
+            android:layout_height="70dip"
+            android:layout_gravity="center"
+            android:background="@drawable/night_01"
+            android:layout_marginLeft="40dip" />
+    </LinearLayout>
+
+</LinearLayout>

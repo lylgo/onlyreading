@@ -230,6 +230,8 @@ public class ReadBookActivity extends BaseActivity {
 			pagefactory.setM_fontSize(30);// 设置字体
 			pagefactory.onDraw(mCurPageCanvas);// 在工厂中对画布进行编辑
 			word = pagefactory.getFirstLineText();
+			editor.putString("history", bookPath);
+			editor.commit();
 		} catch (Exception e1) {
 			Toast.makeText(this, "打开电子书失败", Toast.LENGTH_SHORT).show();
 		}

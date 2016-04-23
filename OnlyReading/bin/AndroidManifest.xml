@@ -12,7 +12,7 @@
     <application
         android:name="cn.hncj.or.utils.MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/app"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
@@ -28,12 +28,13 @@
             android:name="cn.hncj.or.activity.QueryBookActivity"
             android:label="@string/title_activity_query_book" >
         </activity>
-        <activity android:name="cn.hncj.or.activity.BookhistoryActivity" />
         <activity android:name="cn.hncj.or.activity.BookstoreActivity" />
         <activity android:name="cn.hncj.or.activity.ReadBookActivity" />
         <activity android:name="cn.hncj.or.activity.RegisterActivity" />
         <activity android:name="cn.hncj.or.activity.LoginActivity" />
         <activity android:name="cn.hncj.or.activity.CollecActivity"/>
+        <activity android:name="cn.hncj.or.activity.DownBookActivity"/>
+        <activity android:name="cn.hncj.or.activity.SettingActivity"/>
+        <activity android:name="cn.hncj.or.activity.MyCenterActiivity"/>
     </application>
-
 </manifest>

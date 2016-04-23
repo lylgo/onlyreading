@@ -55,9 +55,10 @@ public class DownBookHttpUtils {
 								boolean isUploading) {
 							int progress = (int) (current * 100 / total);
 							bar.setProgress(progress);
-							button.setTextSize(12);
+							button.setTextSize(10);
 							button.setText(progress + "%");
 							if (progress == 100) {
+								button.setTextSize(10);
 								button.setText("Íê³É");
 								bar.setVisibility(View.INVISIBLE);
 							}

@@ -10,6 +10,7 @@ import zrc.widget.SimpleHeader;
 import zrc.widget.ZrcListView;
 import zrc.widget.ZrcListView.OnStartListener;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.BitmapFactory;
@@ -71,6 +72,9 @@ public class BookstoreActivity extends BaseActivity {
 		InitImageView();
 		InitTextView();
 		InitViewPager();
+		Intent intent=getIntent();
+		int page=intent.getIntExtra("page", 0);
+		viewPager.setCurrentItem(page);
 		listone = (ZrcListView) view1.findViewById(R.id.zListone);
 		listtwo = (ZrcListView) view2.findViewById(R.id.zListtwo);
 		handler = new Handler();

@@ -10,6 +10,8 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 
+import cn.hncj.or.utils.MyApplication;
+
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -17,6 +19,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
+import android.graphics.Typeface;
 import android.text.Layout.Alignment;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -34,24 +37,20 @@ public class BookPageFactory {
 	private MappedByteBuffer m_mbBuf = null;// 内存中的图书字符
 	private int m_mbBufBegin = 0;// 当前页起始位置
 	private int m_mbBufEnd = 0;// 当前页终点位置
-
 	private int m_mbBufLen = 0; // 图书总长度
-
 	private String m_strCharsetName = "GBK";
-
 	private int m_textColor = Color.rgb(28, 28, 28);
-
 	private int marginHeight = 15; // 上下与边缘的距离
 	private int marginWidth = 15; // 左右与边缘的距离
 	private int mHeight;
 	private int mLineCount; // 每页可以显示的行数z
 	private Paint mPaint, textpaint;
-    
+    private String item[]={"fonts/fzst.ttf","fonts/songti.ttf","fonts/xyt.ttf"};
     
 	private float mVisibleHeight; // 绘制内容的宽
 	private float mVisibleWidth; // 绘制内容的宽
 	private int mWidth;
-
+    private SharedPreferences sp;
 	public BookPageFactory(int w, int h) {
 		mWidth = w;
 		mHeight = h;
@@ -60,6 +59,12 @@ public class BookPageFactory {
 		textpaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		textpaint.setTextSize(25);
 		textpaint.setColor(m_textColor);
+		sp = MyApplication.getcontext().getSharedPreferences("bookconfig",MyApplication.getcontext().MODE_PRIVATE);
+		int id=sp.getInt("txttype", 0);
+		if(id!=0){
+			Typeface typeface =Typeface.createFromAsset(MyApplication.getcontext().getAssets(),item[id]);
+			mPaint.setTypeface(typeface);	
+		}
 		mPaint.setTextAlign(Align.LEFT);// 做对其
 		mPaint.setTextSize(m_fontSize);// 字体大小
 		mPaint.setColor(m_textColor);// 字体颜色
