@@ -27,7 +27,7 @@
             android:textColor="#ffffff"
             android:textSize="18sp" />
     </LinearLayout>
-    
+
     <EditText
         android:id="@+id/niname"
         android:layout_width="280dip"
@@ -43,6 +43,7 @@
         android:layout_height="1dip"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/listviewx" />
+
     <EditText
         android:id="@+id/pass"
         android:layout_width="280dip"
@@ -50,8 +51,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dip"
         android:background="@null"
-        android:inputType="phone"
         android:hint="请输入密码"
+        android:inputType="phone"
         android:textSize="16sp" />
 
     <View
@@ -59,48 +60,28 @@
         android:layout_height="1dip"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/listviewx" />
-     <EditText
-         android:id="@+id/repass"
+
+    <EditText
+        android:id="@+id/repass"
         android:layout_width="280dip"
         android:layout_height="40dip"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="15dip"
         android:background="@null"
-        android:inputType="phone"
         android:hint="请再次输入密码"
+        android:inputType="phone"
         android:textSize="16sp" />
+
     <View
         android:layout_width="280dip"
         android:layout_height="1dip"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/listviewx" />
-<!--  
-    <LinearLayout
-        android:layout_width="300dip"
-        android:layout_height="50dip"
-        android:orientation="horizontal" >
-        <EditText
-            android:layout_marginLeft="20dip"
-            android:layout_width="220dip"
-            android:layout_height="40dip"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dip"
-            android:background="@null"
-            android:hint="电话号码"
-            android:textSize="16sp" />
-        <TextView  android:layout_height="30dip"
-            android:layout_marginTop="10dip"
-            android:text="点击发送"
-            android:textColor="#545454"
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"/>
-    </LinearLayout>
-    -->
+
     <View
-        android:layout_width="200dip"
+        android:layout_width="280dip"
         android:layout_height="1dip"
-        android:layout_marginLeft="20dip"
-        android:layout_gravity="left"
+        android:layout_gravity="center_horizontal"
         android:background="@drawable/listviewx" />
     <EditText
         android:id="@+id/email"
@@ -129,4 +110,5 @@
         android:text="注册"
         android:textColor="#ffffff"
         android:textSize="20sp" />
+
 </LinearLayout>

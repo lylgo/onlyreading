@@ -83,6 +83,7 @@
             android:background="#E9E9E9" />
 
         <TextView
+            android:id="@+id/about"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:drawableRight="@drawable/right_more_unsel"

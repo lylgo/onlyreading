@@ -3,6 +3,150 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45.0dip"
+        android:background="@drawable/bg_title_bar"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/back_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dip"
+            android:background="@drawable/top_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="80dip"
+            android:singleLine="true"
+            android:text="个人中心"
+            android:textColor="#ffffff"
+            android:textSize="22sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="300dip"
+        android:layout_height="180dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="10dip"
+        android:background="#F4F4F4"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="300dip"
+            android:layout_height="60dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:gravity="center_vertical"
+                android:text="账号："
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:gravity="center_vertical"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="300dip"
+            android:layout_height="1dip"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/listviewx" />
+
+        <LinearLayout
+            android:layout_width="300dip"
+            android:layout_height="60dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:gravity="center_vertical"
+                android:text="昵称："
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="150dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:gravity="center_vertical"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dip"
+                android:background="@drawable/right_more_unsel" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="300dip"
+            android:layout_height="1dip"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/listviewx" />
+
+        <LinearLayout
+            android:layout_width="300dip"
+            android:layout_height="60dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:gravity="center_vertical"
+                android:text="密码:"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/pass"
+                android:layout_width="150dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:gravity="center_vertical"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dip"
+                android:background="@drawable/right_more_unsel" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="300dip"
+            android:layout_height="1dip"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/listviewx" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/re_button"
+        android:layout_width="270dip"
+        android:layout_height="40dip"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dip"
+        android:background="@drawable/reg_button"
+        android:gravity="center"
+        android:text="退出"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
 
 </LinearLayout>

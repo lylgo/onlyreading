@@ -51,6 +51,38 @@ public class HttptestUtils {
 		}
 		return String.valueOf(response);
 	}
+	
+	
+	public static InputStream submitPostData(String path) {
+		try {
+			HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(
+					path.toString()).openConnection();
+			httpURLConnection.setConnectTimeout(3000);
+			httpURLConnection.setDoInput(true); // 打开输入流，以便从服务器获取数据
+			httpURLConnection.setDoOutput(true); // 打开输出流，以便向服务器提交数据
+			httpURLConnection.setRequestMethod("POST");
+			httpURLConnection.setUseCaches(false); // 使用Post方式不能使用缓存
+			// 设置请求体的类型是文本类型
+			httpURLConnection.setRequestProperty("Content-Type",
+					"application/x-www-form-urlencoded");
+			// 获得输出流，向服务器写入数据
+			try {
+				outputStream = httpURLConnection.getOutputStream();
+			} catch (IOException e) {
+				if (outputStream == null) {
+					return null;
+				}
+			}
+			int response = httpURLConnection.getResponseCode(); // 获得服务器的响应码
+			if (response == HttpURLConnection.HTTP_OK) {
+				InputStream inptStream = httpURLConnection.getInputStream();
+				return inptStream; // 处理服务器的响应结果
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	/**
 	 * 解析返回值
 	 * 

@@ -44,6 +44,7 @@ import cn.hncj.or.http.ImageHttpUtils;
 import cn.hncj.or.ui.CircleImageView;
 import cn.hncj.or.ui.MyGridView;
 import cn.hncj.or.ui.SlideMenu;
+import cn.hncj.or.utils.ActivityCollector;
 import cn.hncj.or.utils.CompressBitmapUtils;
 import cn.hncj.or.utils.MyApplication;
 
@@ -64,14 +65,15 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	private BookAdapter bookadapter;
 	private SharedPreferences sp, spconfig;
 	private Dialog builder, ImageDiag;
-	private TextView debutton, nickname,viptextview;
+	private TextView debutton, nickname, viptextview, abouttextview;
 	private CircleImageView userImage, title_Image;
 	private RadioButton rabutton;
 	private int local;// 删除标志位
 	private Bitmap bitmap;// 剪切后bitmap
 	protected File tempFile;
 	private String name, email;
-	private static String[] names = { "收藏", "下载", "账户", "设置" };
+	private long mExitTime;
+	private static String[] names = { "收藏", "下载", "我的", "设置" };
 	private static int[] ids = { R.drawable.selector_menu_item1,
 			R.drawable.selector_menu_item2, R.drawable.selector_menu_item3,
 			R.drawable.selector_menu_item4 };
@@ -89,7 +91,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		nickname = (TextView) findViewById(R.id.nickname);// 昵称
 		userImage = (CircleImageView) findViewById(R.id.title_Image);
 		title_Image = (CircleImageView) findViewById(R.id.title_bar_menu_btn);
-		viptextview=(TextView) findViewById(R.id.vip_page);
+		viptextview = (TextView) findViewById(R.id.vip_page);
+		abouttextview = (TextView) findViewById(R.id.about);
 		sp = getSharedPreferences("land", MODE_PRIVATE);
 		spconfig = getSharedPreferences("bookconfig", MODE_PRIVATE);
 		name = sp.getString("name", "尚未登录");
@@ -165,11 +168,17 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				// TODO Auto-generated method stub
 				switch (position) {
 				case 0:
-					Intent intent = new Intent(MainActivity.this,
-							CollecActivity.class);
-					startActivity(intent);
-					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
-					finish();
+					if (email.equals("")) {
+						Toast.makeText(MainActivity.this, "对不起，你尚未登陆",
+								Toast.LENGTH_SHORT).show();
+					} else {
+						Intent intent = new Intent(MainActivity.this,
+								CollecActivity.class);
+						startActivity(intent);
+						overridePendingTransition(R.anim.tran_in,
+								R.anim.tran_out);
+						finish();
+					}
 					break;
 				case 1:
 					Intent intentdown = new Intent(MainActivity.this,
@@ -179,11 +188,17 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 					finish();
 					break;
 				case 2:
-					Intent intentme = new Intent(MainActivity.this,
-							MyCenterActiivity.class);
-					startActivity(intentme);
-					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
-					finish();
+					if (email.equals("")) {
+						Toast.makeText(MainActivity.this, "对不起，你尚未登陆",
+								Toast.LENGTH_SHORT).show();
+					} else {
+						Intent intentme = new Intent(MainActivity.this,
+								MyCenterActiivity.class);
+						startActivity(intentme);
+						overridePendingTransition(R.anim.tran_in,
+								R.anim.tran_out);
+						finish();
+					}
 					break;
 				case 3:
 					Intent intentset = new Intent(MainActivity.this,
@@ -221,9 +236,27 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		viptextview.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if (email.equals("")) {
+					Toast.makeText(MainActivity.this, "对不起，你尚未登陆",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Intent intent = new Intent(MainActivity.this,
+							BookstoreActivity.class);
+					intent.putExtra("page", 1);
+					startActivity(intent);
+					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
+				}
+			}
+		});
+		/**
+		 * 关于
+		 */
+		abouttextview.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
 				Intent intent = new Intent(MainActivity.this,
-						BookstoreActivity.class);
-				intent.putExtra("page", 1);
+						AboutMsgActivity.class);
 				startActivity(intent);
 				overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
 			}
@@ -372,6 +405,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			}
 		});
 	}
+
 	/**
 	 * 删除图书
 	 * 
@@ -570,7 +604,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-
+			if ((System.currentTimeMillis() - mExitTime) > 2000) {
+				Toast.makeText(this, "再按一次退出只读", Toast.LENGTH_SHORT).show();
+				mExitTime = System.currentTimeMillis();
+			} else {
+				ActivityCollector.finishall();
+				finish();
+			}
+			return true;
 		}
 		return super.onKeyDown(keyCode, event);
 	}

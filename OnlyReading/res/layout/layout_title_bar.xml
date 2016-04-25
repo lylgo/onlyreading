@@ -27,6 +27,7 @@
         android:paddingRight="75.0dip"
         android:singleLine="true"
         android:text="只读"
+        android:layout_marginLeft="15dip"
         android:textColor="#ffffff"
         android:textSize="22sp" />
     <ImageButton
@@ -34,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="25dip"
         android:background="@drawable/serch_seletor"
         android:onClick="query" />
 </LinearLayout>
