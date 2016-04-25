@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45.0dip"
+        android:background="@drawable/bg_title_bar"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:singleLine="true"
+            android:text="关于"
+            android:textColor="#ffffff"
+            android:textSize="22sp" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dip"
+        android:background="@drawable/app" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="6dip"
+        android:text="只读 只为阅读"
+        android:textColor="#FF7F50"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="300dip"
+        android:layout_height="120dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginTop="140dip"
+        android:background="#F4F4F4"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="300dip"
+            android:layout_height="40dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:gravity="center_vertical"
+                android:text="版本"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:gravity="center_vertical"
+                android:text="1.0"
+                android:textSize="16sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="300dip"
+            android:layout_height="1dip"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/listviewx" />
+        <LinearLayout
+            android:layout_width="300dip"
+            android:layout_height="40dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:gravity="center_vertical"
+                android:text="检测更新"
+                android:textSize="16sp" />
+        </LinearLayout>
+        <View
+            android:layout_width="300dip"
+            android:layout_height="1dip"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/listviewx" />
+        <LinearLayout
+            android:layout_width="300dip"
+            android:layout_height="40dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:gravity="center_vertical"
+                android:text="联系我们"
+                android:textSize="16sp" />
+            <TextView
+                android:id="@+id/pass"
+                android:layout_width="150dip"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:gravity="center_vertical"
+                android:textSize="16sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dip"
+                android:background="@drawable/right_more_unsel" />
+        </LinearLayout>
+        <View
+            android:layout_width="300dip"
+            android:layout_height="1dip"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/listviewx" />
+    </LinearLayout>
+</LinearLayout>
