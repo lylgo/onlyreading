@@ -67,13 +67,13 @@ public class BookstoreActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bookstore);
-		new myastybooklist().execute(new String[] { "1", "2" ,"page"});
+		new myastybooklist().execute(new String[] { "1", "2", "page" });
 		sp = getSharedPreferences("land", MODE_PRIVATE);
 		InitImageView();
 		InitTextView();
 		InitViewPager();
-		Intent intent=getIntent();
-		int page=intent.getIntExtra("page", 0);
+		Intent intent = getIntent();
+		int page = intent.getIntExtra("page", 0);
 		viewPager.setCurrentItem(page);
 		listone = (ZrcListView) view1.findViewById(R.id.zListone);
 		listtwo = (ZrcListView) view2.findViewById(R.id.zListtwo);
@@ -95,21 +95,21 @@ public class BookstoreActivity extends BaseActivity {
 		listtwo.setItemAnimForTopIn(R.anim.topitem_in);
 		listtwo.setItemAnimForBottomIn(R.anim.bottomitem_in);
 		// 下拉刷新事件回调（可选）
-		// listone.setOnRefreshStartListener(new OnStartListener() {
-		// @Override
-		// public void onStart() {
-		// new myastybooklist().execute(String.valueOf(1));
-		// refresh();
-		// }
-		// });
-		// // 加载更多事件回调（可选）
-		// listone.setOnLoadMoreStartListener(new OnStartListener() {
-		// @Override
-		// public void onStart() {
-		// new myastybooklist().execute(String.valueOf(cont));
-		// loadMore();
-		// }
-		// });
+//		listone.setOnRefreshStartListener(new OnStartListener() {
+//			@Override
+//			public void onStart() {
+//				new myastybooklist().execute(String.valueOf(1));
+//				refresh();
+//			}
+//		});
+//		// 加载更多事件回调（可选）
+//		listone.setOnLoadMoreStartListener(new OnStartListener() {
+//			@Override
+//			public void onStart() {
+//				new myastybooklist().execute(String.valueOf(cont));
+//				loadMore();
+//			}
+//		});
 		adapter = new MyAdapter();
 		listone.setAdapter(adapter);
 	}
@@ -136,7 +136,6 @@ public class BookstoreActivity extends BaseActivity {
 			@Override
 			public void run() {
 				cont++;
-				Log.i("BOOK", cont + "");
 				if (cont <= Integer.valueOf(Tonumberpage)) {
 					adapter.notifyDataSetChanged();
 					listone.setLoadMoreSuccess();
@@ -247,7 +246,8 @@ public class BookstoreActivity extends BaseActivity {
 						.findViewById(R.id.down_button);
 				viewhoder.progress = (ProgressBar) view
 						.findViewById(R.id.downbar);
-				viewhoder.collecbutton = (Button) view.findViewById(R.id.collect_button);
+				viewhoder.collecbutton = (Button) view
+						.findViewById(R.id.collect_button);
 				view.setTag(viewhoder);
 			} else {
 				view = convertView;
@@ -280,15 +280,17 @@ public class BookstoreActivity extends BaseActivity {
 					if (sp.getString("email", "").equals("")) {
 						Toast.makeText(BookstoreActivity.this, "对不起，你尚未登陆",
 								Toast.LENGTH_SHORT).show();
-					}else{
-						String email=sp.getString("email", "");
-						new  myastybooklist().execute(new String[]{email,String.valueOf(bookone
-								.get(progre).getId()),"coll"});
+					} else {
+						String email = sp.getString("email", "");
+						new myastybooklist().execute(new String[] { email,
+								String.valueOf(bookone.get(progre).getId()),
+								"coll" });
 					}
 				}
 			});
 			return view;
 		}
+
 		class ViewHoder {
 			TextView nametext, typetext, destext;
 			Button downbutton, collecbutton;
@@ -297,6 +299,7 @@ public class BookstoreActivity extends BaseActivity {
 		}
 
 	}
+
 	class myastybooklist extends AsyncTask<String, Void, String> {
 		@Override
 		protected String doInBackground(String... params) {
@@ -305,12 +308,12 @@ public class BookstoreActivity extends BaseActivity {
 			map.put("num", params[0]);
 			map.put("type", params[1]);
 			map.put("net", params[2]);
-			String result=null;
-			if(map.get("net").equals("page")){
-				 result = HttptestUtils.submitPostData(map, "UTF-8",
+			String result = null;
+			if (map.get("net").equals("page")) {
+				result = HttptestUtils.submitPostData(map, "UTF-8",
 						Const.GETBOOKLISTPATH);
-			}else{
-				 result = HttptestUtils.submitPostData(map, "UTF-8",
+			} else {
+				result = HttptestUtils.submitPostData(map, "UTF-8",
 						Const.COLLEBOOKPATH);
 			}
 			if (cont == 2) {
@@ -323,11 +326,13 @@ public class BookstoreActivity extends BaseActivity {
 
 		@Override
 		protected void onPostExecute(String result) {
-			if(result.equals("S")){
-				Toast.makeText(BookstoreActivity.this,"收藏成功", Toast.LENGTH_SHORT).show();
-			}else if(result.equals("E")){
-				Toast.makeText(BookstoreActivity.this,"收藏失败", Toast.LENGTH_SHORT).show();
-			}else{
+			if (result.equals("S")) {
+				Toast.makeText(BookstoreActivity.this, "收藏成功",
+						Toast.LENGTH_SHORT).show();
+			} else if (result.equals("E")) {
+				Toast.makeText(BookstoreActivity.this, "收藏失败",
+						Toast.LENGTH_SHORT).show();
+			} else {
 				if (viewPager.getCurrentItem() == 0) {
 					List<Book> rebook = JsonUtils.JsonTools(result);
 					for (Book book : rebook)
@@ -457,7 +462,11 @@ public class BookstoreActivity extends BaseActivity {
 			animation.setDuration(300);
 			imageView.startAnimation(animation);
 			if (viewPager.getCurrentItem() == 1) {
-				new myastybooklist().execute(new String[] { "1", "1","page" });
+				new myastybooklist().execute(new String[] { "1", "1", "page" });
+			}else{
+				if(books.size()==0){
+					new myastybooklist().execute(new String[] { "1", "2", "page" });
+				}
 			}
 		}
 	}

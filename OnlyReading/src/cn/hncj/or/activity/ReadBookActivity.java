@@ -436,6 +436,7 @@ public class ReadBookActivity extends BaseActivity {
 	 */
 	@SuppressLint("NewApi")
 	private void showTxtSizePop() {
+		show=false;
 		textShow = true;
 		settxtSizePop.showAtLocation(findViewById(R.id.readlayout),
 				Gravity.BOTTOM, 0, 0);
@@ -523,6 +524,7 @@ public class ReadBookActivity extends BaseActivity {
 	 * ¡¡∂»…Ë÷√
 	 */
 	public void showLightPop() {
+		show=false;
 		lightShow = true;
 		setLightPop.showAtLocation(findViewById(R.id.readlayout),
 				Gravity.BOTTOM, 0, 0);
@@ -749,6 +751,7 @@ public class ReadBookActivity extends BaseActivity {
 				stopPop();
 			} else if (lightShow) {
 				setLightPop.dismiss();
+				lightShow=false;
 			} else if (rollread) {
 				timer.cancel();
 				rollread = false;

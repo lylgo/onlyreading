@@ -45,7 +45,7 @@ public class BookPageFactory {
 	private int mHeight;
 	private int mLineCount; // 每页可以显示的行数z
 	private Paint mPaint, textpaint;
-    private String item[]={"fonts/fzst.ttf","fonts/songti.ttf","fonts/xyt.ttf"};
+    private String item[]={"fonts/fzst.ttf","fonts/songti.ttf","fonts/msyh.ttf","fonts/xyt.ttf"};
     
 	private float mVisibleHeight; // 绘制内容的宽
 	private float mVisibleWidth; // 绘制内容的宽
@@ -62,7 +62,7 @@ public class BookPageFactory {
 		sp = MyApplication.getcontext().getSharedPreferences("bookconfig",MyApplication.getcontext().MODE_PRIVATE);
 		int id=sp.getInt("txttype", 0);
 		if(id!=0){
-			Typeface typeface =Typeface.createFromAsset(MyApplication.getcontext().getAssets(),item[id]);
+			Typeface typeface =Typeface.createFromAsset(MyApplication.getcontext().getAssets(),item[id-1]);
 			mPaint.setTypeface(typeface);	
 		}
 		mPaint.setTextAlign(Align.LEFT);// 做对其
@@ -121,7 +121,6 @@ public class BookPageFactory {
 			else
 				c.drawBitmap(m_book_bg, 0, 0, null);
 			int y = marginHeight;
-			Log.i("FFF", m_lines.toString());
 			for (String strLine : m_lines) {
 				y += m_fontSize;
 				c.drawText(strLine, marginWidth, y, mPaint);

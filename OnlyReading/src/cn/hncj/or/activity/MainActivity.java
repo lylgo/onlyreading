@@ -245,6 +245,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 					intent.putExtra("page", 1);
 					startActivity(intent);
 					overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
+					finish();
 				}
 			}
 		});
@@ -259,6 +260,7 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 						AboutMsgActivity.class);
 				startActivity(intent);
 				overridePendingTransition(R.anim.tran_in, R.anim.tran_out);
+				finish();
 			}
 		});
 	}
@@ -589,14 +591,15 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		loadBookdata();
-		sp = getSharedPreferences("history", MODE_PRIVATE);
-		String flag = sp.getString("flag", null);
-		if (flag != null) {
-			rabutton.setChecked(true);
-		}
-		super.onPause();
+		rabutton.setChecked(true);
+		super.onResume();
 	}
-
+   @Override
+protected void onRestart() {
+	// TODO Auto-generated method stub
+	   rabutton.setChecked(true);
+	super.onRestart();
+}
 	/**
 	 * 监听回退键
 	 */

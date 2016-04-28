@@ -14,10 +14,9 @@
         android:allowBackup="true"
         android:icon="@drawable/app"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar" >
+        android:theme="@style/AppTheme" >
         <activity
             android:name="cn.hncj.or.activity.SplashViewActivity"
-            android:theme="@android:style/Theme.Light.NoTitleBar"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,5 +38,7 @@
         <activity android:name="cn.hncj.or.activity.MyCenterActiivity"/>
         <activity android:name="cn.hncj.or.activity.UpdateMsgActivity"/>
         <activity android:name="cn.hncj.or.activity.AboutMsgActivity"/>
+        <activity android:name="cn.hncj.or.activity.ConTactActivity"/>
+        <service android:name="cn.hncj.or.service.VisionService" />
     </application>
 </manifest>

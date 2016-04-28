@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-     <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45.0dip"
         android:background="@drawable/bg_title_bar"
@@ -20,6 +20,7 @@
             android:textColor="#ffffff"
             android:textSize="22sp" />
     </LinearLayout>
+
     <ImageView
         android:layout_width="100dip"
         android:layout_height="100dip"
@@ -49,6 +50,7 @@
             android:layout_height="40dip"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,7 +60,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/email"
+                android:id="@+id/vision"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
@@ -66,34 +68,55 @@
                 android:text="1.0"
                 android:textSize="16sp" />
         </LinearLayout>
+
         <View
             android:layout_width="300dip"
             android:layout_height="1dip"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/listviewx" />
+
         <LinearLayout
+            android:id="@+id/flag"
             android:layout_width="300dip"
             android:layout_height="40dip"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
+
             <TextView
+                android:id="@+id/update"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
                 android:gravity="center_vertical"
                 android:text="检测更新"
                 android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/flag_button"
+                android:layout_width="40dip"
+                android:layout_height="25dip"
+                android:layout_marginLeft="10dip"
+                android:background="@drawable/ok_button"
+                android:gravity="center"
+                android:text="NEW"
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                android:visibility="invisible" />
         </LinearLayout>
+
         <View
             android:layout_width="300dip"
             android:layout_height="1dip"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/listviewx" />
+
         <LinearLayout
+            android:id="@+id/contentme"
             android:layout_width="300dip"
             android:layout_height="40dip"
             android:gravity="center_vertical"
             android:orientation="horizontal" >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -101,23 +124,19 @@
                 android:gravity="center_vertical"
                 android:text="联系我们"
                 android:textSize="16sp" />
-            <TextView
-                android:id="@+id/pass"
-                android:layout_width="150dip"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dip"
-                android:gravity="center_vertical"
-                android:textSize="16sp" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dip"
+                android:layout_marginLeft="200dip"
                 android:background="@drawable/right_more_unsel" />
         </LinearLayout>
+
         <View
             android:layout_width="300dip"
             android:layout_height="1dip"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/listviewx" />
     </LinearLayout>
+
 </LinearLayout>

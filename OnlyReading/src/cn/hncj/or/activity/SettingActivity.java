@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -163,7 +164,8 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
 		txtData.add("系统默认");
 		txtData.add("方正宋体");
 		txtData.add("宋体");
-		txtData.add("沁圆简体");
+		txtData.add("微软雅黑");
+		txtData.add("沁圆体");
 		return txtData;
 	}
 }

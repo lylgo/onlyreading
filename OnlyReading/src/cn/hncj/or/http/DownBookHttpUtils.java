@@ -63,13 +63,11 @@ public class DownBookHttpUtils {
 								bar.setVisibility(View.INVISIBLE);
 							}
 						}
-
 						@Override
 						public void onStart() {
 							// TODO Auto-generated method stub
 							bar.setVisibility(View.VISIBLE);
 						}
-
 						@Override
 						public void onFailure(HttpException arg0, String arg1) {
 							// TODO Auto-generated method stub
@@ -96,7 +94,5 @@ public class DownBookHttpUtils {
 					+ "','" + path + "',1,0,null" + ");";
 			db.execSQL(sql);
 		}
-		// cursor.close();
-		// db.close();
 	}
 }

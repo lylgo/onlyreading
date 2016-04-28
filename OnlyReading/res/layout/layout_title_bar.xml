@@ -11,7 +11,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="3.0dip"
-        android:layout_marginTop="3.0dip"
         android:gravity="center"
         android:src="@drawable/tital"
         app:border_color="@color/light"
@@ -35,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="25dip"
+        android:layout_marginLeft="21dip"
         android:background="@drawable/serch_seletor"
         android:onClick="query" />
 </LinearLayout>

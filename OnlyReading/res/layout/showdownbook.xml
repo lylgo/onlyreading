@@ -38,7 +38,6 @@
             android:layout_marginLeft="200dp"
             android:layout_marginTop="25dp"
             android:text="dddd" />
-
         <TextView
             android:id="@+id/desbook"
             android:layout_width="wrap_content"
@@ -46,6 +45,7 @@
             android:layout_below="@id/typebook"
             android:layout_marginLeft="150dp"
             android:layout_marginTop="3dip"
+            android:textSize="11sp"
             android:text="dssss" />
 
         <Button
@@ -56,6 +56,7 @@
             android:layout_marginLeft="270dip"
             android:background="@drawable/down"
             android:text="下载"
+            android:textSize="13sp"
             android:textColor="#ffffff" />
 
         <TextView
