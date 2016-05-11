@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import cn.hncj.or.config.Const;
+import cn.hncj.or.function.CheckNetwork;
 import cn.hncj.or.http.HttptestUtils;
 import android.app.IntentService;
 import android.content.Intent;
@@ -23,7 +24,6 @@ public class VisionService extends IntentService {
 	public VisionService() {
 		super("VisionService");
 	}
-
 	@Override
 	protected void onHandleIntent(Intent intent) {
 		// TODO Auto-generated method stub
@@ -53,8 +53,16 @@ public class VisionService extends IntentService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		boolean  flag=CheckNetwork.isNetworkAvailable(this);
+		if(!flag){
+			sp = getSharedPreferences("land", MODE_PRIVATE);
+			Editor editor = sp.edit();
+			editor.putString("email", "");
+			editor.putString("name", "ÉÐÎ´µÇÂ¼");
+			editor.commit();
+		}
 	}
-
+	
 	private String getVersionName() {
 		PackageManager pm = getPackageManager();
 		try {

@@ -119,9 +119,14 @@ public class MyCenterActiivity extends BaseActivity implements OnClickListener {
 				Toast.makeText(MyCenterActiivity.this, "服务器异常，获取信息失败",
 						Toast.LENGTH_SHORT).show();
 			} else {
-				String resu[] = result.split("#");
-				nametext.setText(resu[0]);
-				passtext.setText(resu[1]);
+				if(result.equals("")){
+					Toast.makeText(MyCenterActiivity.this, "服务器异常，获取信息失败",
+							Toast.LENGTH_SHORT).show();
+				}else{
+					String resu[] = result.split("#");
+					nametext.setText(resu[0]);
+					passtext.setText(resu[1]);
+				}
 			}
 		}
 	}

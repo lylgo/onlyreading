@@ -71,14 +71,7 @@
         android:hint="请再次输入密码"
         android:inputType="phone"
         android:textSize="16sp" />
-
-    <View
-        android:layout_width="280dip"
-        android:layout_height="1dip"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/listviewx" />
-
-    <View
+  <View
         android:layout_width="280dip"
         android:layout_height="1dip"
         android:layout_gravity="center_horizontal"

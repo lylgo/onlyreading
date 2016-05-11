@@ -15,7 +15,6 @@ import android.util.Base64;
 
 public class HttptestUtils {
 	private static OutputStream outputStream;
-	private static int response;
 	public static String submitPostData(Map<String,String> map, String encode,String path) {
 		byte[] data = getRequestData( map, encode).toString().getBytes();// 获得请求体
 		try {
@@ -37,7 +36,7 @@ public class HttptestUtils {
 				outputStream = httpURLConnection.getOutputStream();
 			} catch (IOException e) {
 				if (outputStream == null) {
-					return "F";
+					return "";
 				}
 			}
 			outputStream.write(data);
@@ -49,7 +48,7 @@ public class HttptestUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return String.valueOf(response);
+		return "";
 	}
 	
 	

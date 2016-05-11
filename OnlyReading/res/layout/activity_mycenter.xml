@@ -145,7 +145,7 @@
         android:layout_marginTop="40dip"
         android:background="@drawable/reg_button"
         android:gravity="center"
-        android:text="退出"
+        android:text="退出登陆"
         android:textColor="#ffffff"
         android:textSize="20sp" />
 

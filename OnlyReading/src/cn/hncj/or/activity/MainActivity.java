@@ -136,7 +136,6 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-				// 修改数据库中图书的最近阅读状态为1
 				String path = (String) bookItem.get(position).get("path");
 				SQLiteDatabase db = bookdb.getWritableDatabase();
 				File f = new File(path);

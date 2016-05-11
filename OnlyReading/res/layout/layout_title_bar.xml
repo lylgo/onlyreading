@@ -8,8 +8,8 @@
     android:gravity="center_vertical" >
     <cn.hncj.or.ui.CircleImageView
         android:id="@+id/title_bar_menu_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dip"
+        android:layout_height="40dip"
         android:layout_marginRight="3.0dip"
         android:gravity="center"
         android:src="@drawable/tital"

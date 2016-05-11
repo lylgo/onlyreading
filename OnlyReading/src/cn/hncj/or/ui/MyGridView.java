@@ -30,7 +30,6 @@ public class MyGridView extends GridView {
         for (int y = top; y<=height; y += backgroundHeight){
             for (int x = 0; x<width; x += backgroundWidth){
                 canvas.drawBitmap(background, x, y, null);
-               //  ^
             }
         }
         super.dispatchDraw(canvas);

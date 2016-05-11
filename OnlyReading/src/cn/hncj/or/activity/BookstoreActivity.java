@@ -1,18 +1,14 @@
 package cn.hncj.or.activity;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import zrc.widget.SimpleFooter;
 import zrc.widget.SimpleHeader;
 import zrc.widget.ZrcListView;
-import zrc.widget.ZrcListView.OnStartListener;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.AsyncTask;
@@ -22,7 +18,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -40,9 +36,7 @@ import cn.hncj.or.db.Book;
 import cn.hncj.or.http.DownBookHttpUtils;
 import cn.hncj.or.http.HttptestUtils;
 import cn.hncj.or.utils.JsonUtils;
-
 import com.hncj.activity.R;
-
 @SuppressLint("ViewHolder")
 public class BookstoreActivity extends BaseActivity {
 	private ViewPager viewPager;// 页卡内容
@@ -62,7 +56,6 @@ public class BookstoreActivity extends BaseActivity {
 	private int cont = 2;// 加载页数
 	private String Tonumberpage;// 总页数
 	private SharedPreferences sp;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -470,4 +463,17 @@ public class BookstoreActivity extends BaseActivity {
 			}
 		}
 	}
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		if(keyCode==event.KEYCODE_BACK){
+			Intent intent = new Intent(BookstoreActivity.this,
+					MainActivity.class);
+			startActivity(intent);
+			overridePendingTransition(R.anim.tran_pre_in, R.anim.tran_pre_out);
+			finish();
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+	
 }

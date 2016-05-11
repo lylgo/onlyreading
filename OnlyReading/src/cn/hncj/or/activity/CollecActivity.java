@@ -38,7 +38,6 @@ public class CollecActivity extends BaseActivity {
 	private Myadapter adapter;
 	private List<Book> list;
 	private String uid;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
